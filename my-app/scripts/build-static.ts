@@ -3,7 +3,9 @@ import { dirname, join } from "node:path";
 
 await rm("dist", { recursive: true, force: true });
 
-await import("./optimize-images");
+if (!Bun.env.CI) {
+  await import("./optimize-images");
+}
 
 const result = await Bun.build({
   entrypoints: ["index.html"],
