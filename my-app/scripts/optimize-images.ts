@@ -3,9 +3,10 @@ import { basename, dirname, extname, join, relative } from "node:path";
 
 const SRC = "public";
 const OUT = "public/optimized";
-const TARGETS = [1920, 1536, 1024, 768, 480] as const;
-const WEBP_QUALITY = 86;
+const TARGETS = [1920, 1024] as const;
+const WEBP_QUALITY = 82;
 const AVIF_QUALITY = 78;
+const ENABLE_AVIF = Bun.env.ENABLE_AVIF === "1";
 
 await mkdir(OUT, { recursive: true });
 
@@ -91,7 +92,9 @@ await Promise.all(
         .write(webpOut);
       console.log(`  ${webpOut}  ${(webpBytes / 1024).toFixed(1)} KB`);
 
-      await writeAvif(src, join(OUT, `${base}-${width}.avif`), width);
+      if (ENABLE_AVIF) {
+        await writeAvif(src, join(OUT, `${base}-${width}.avif`), width);
+      }
     }
   }),
 );

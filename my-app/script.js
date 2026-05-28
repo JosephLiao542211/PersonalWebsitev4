@@ -38,7 +38,6 @@ const img = {
   workRectangle13: "/optimized/work-rectangle-13-205.webp",
   workSoti: "/public/work/image.png",
   portrait: "/optimized/life-img-1882-1024.webp",
-  portraitLarge: "/optimized/life-img-1882-1536.webp",
   comingSoon: "/public/coming-soon.png",
   devLocalReach: "/optimized/dev-localreach-1024.webp",
   devFightLabs: "/optimized/dev-fightlab-1024.webp",
@@ -279,7 +278,7 @@ function landing() {
     <div class="landing">
       <section class="about" aria-labelledby="about-title">
         <picture class="about-portrait">
-          <source srcset="${img.portrait} 1024w, ${img.portraitLarge} 1536w" sizes="(max-width: 760px) 100vw, 18vw" type="image/webp">
+          <source srcset="${img.portrait} 1024w" sizes="(max-width: 760px) 100vw, 18vw" type="image/webp">
           <img src="${img.portrait}" alt="Joseph Liao at a night carousel" loading="eager" decoding="async">
         </picture>
         <div class="about-copy">

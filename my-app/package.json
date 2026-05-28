@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "bun --hot index.ts",
     "start": "NODE_ENV=production bun index.ts",
-    "build": "bun build ./index.html --outdir=dist --minify",
+    "build": "bun scripts/build-static.ts",
     "optimize": "bun scripts/optimize-images.ts"
   },
   "type": "module"
