@@ -1,0 +1,18 @@
+{
+  "name": "my-app",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "bun --hot index.ts",
+    "start": "NODE_ENV=production bun index.ts",
+    "build": "bun build ./index.html --outdir=dist --minify",
+    "optimize": "bun scripts/optimize-images.ts"
+  },
+  "type": "module"
+}

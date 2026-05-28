@@ -1,0 +1,12 @@
+:root {
+  --font-size-xs: clamp(8px, 0.7vw, 11px);
+  --font-size-sm: clamp(9px, 0.78vw, 12px);
+  --font-size-md: clamp(11px, 0.9vw, 15px);
+  --font-size-lg: clamp(14px, 1.15vw, 18px);
+  --font-size-xl: clamp(16px, 1.55vw, 23px);
+  --font-size-page-label: var(--font-size-sm);
+  --font-size-page-copy: var(--font-size-xs);
+  --font-size-page-menu: var(--font-size-sm);
+  --font-size-page-title: var(--font-size-lg);
+  --font-size-nav: var(--font-size-lg);
+}

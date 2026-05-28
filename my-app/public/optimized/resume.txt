@@ -1,0 +1,82 @@
+Joseph Liao
+416-999-7601 | joseph.liao1018@gmail.com | linkedin.com/in/joseph-liao | github.com/JosephLiao542211
+
+Education
+Queen’s University
+
+Kingston, Ontario
+
+Bachelor of Computer Science, Honors
+
+Sep 2022 – May 2026
+
+Technical Skills
+Languages: TypeScript, JavaScript, Python, Go, Dart, Python, Java, SQL
+Frameworks: React, Angular, React Native, Next.js, Apache Spark, PostgreSQL, , TensorFlow, LangChain
+Tools: Gumloop, Google ADK, Databricks, n8n, Figma, Adobe Creative Suite
+
+Work Experience
+Software Engineer, AI Operations Lead
+
+Winnipeg, Manitoba
+
+Taiv (YC-backed, Series A)
+Jan 2025 – Jan 2026
+• Shipped over 100,000+ lines of production code across various systems in 8 months
+• Developed 12+ internal tools and agents with Next.js, Supabase, and various APIs to support sales and
+operations teams
+• Built 5+ Slack automations that reduced task completion time, saving 10+ hours daily across multiple teams.
+• Designed multiple agentic AI systems for customer acquisition and support, interacting with 2000+ restaurants
+and contributing to 420%+ YOY company growth
+• Built a unified AI tools dashboard with consistent internal usage of 800+ monthly sessions
+
+Software Developer (Contract)
+
+Ottawa, Ontario
+
+Larus Technologies
+Sept 2025 – Present
+• Top contributor to the ScenarioGPT frontend, responsible for 80%+ of the codebase
+• Consulted directly with the Canadian Armed Forces, RMC, and CAE Aviation to architect SGPT use cases
+• Designed and implement 10+ high fidelity mock ups in Figma to optimize UX
+
+Software Developer Intern
+
+Toronto, Ontario
+
+TD Bank Group
+Jan 2026 – May 2026
+• Implemented 3 real-time fraud detection pipelines processing over 2 million Kafka events per day.
+• Collaborated with cross-functional teams to onboard 3+ new data sources.
+• Maintained GTB, MRA41, DVS Pipelines using Apache Spark and Azure Databricks
+
+Co-founder, Lead Developer
+
+Kingston, Ontario
+
+Local Reach (Acquired by Taiv)
+Jan 2024 – Jan 2025
+• Co-founded a AI startup focused on TV content optimization, resulting in a 5-figure acquisition
+• Raised over $50,000 in seed funding and achieved $2,000+ MRR within 5 months
+• Developed proprietary commercial detection algorithm with 96%+ accuracy using OpenCV and Tensorflow
+• Prototyped a custom device, featuring custom circuitry, casing, and Raspberry Pi firmware, deployed on 10+ TVs
+
+Projects & Achievements
+Hackathons & Competitions
+• Competed in 14+ hackathons, placing 1st at HackMIT ("Most Marvel-ous Hack"), Best UI/UX at
+HackTheHill, and 3rd at HawkHacks (NEAR blockchain), plus 7+ additional top 10 finishes
+• 1st Place at Mayor’s Innovation Challenge 2024 for ’BaoBab’ resulting in $5,000 of seed funding
+• 2023 GMTK Game Jam: ranked Top 5% (299/6,700+ entries)
+Your Plate | LangChain, fastAPI, React Native
+• Developed a personal LangChain agent to tag and categorize restaurants from Instagram reels
+• Used Leaflet.js to map the restaurants and RAG agent to provide recommendations given a prompt
+• Saved and categorized over 50+ reels and restaurants
+
+Leadership & Involvement
+InQUbate (Queen’s Startup Incubator), Tech Consultant
+QMIND (Queen’s AI Club), Director of Marketing
+Queen’s University Wrestling Team, Varsity Athlete
+
+Mar 2024 – Present
+Mar 2024 – Present
+Sep 2022 – Present

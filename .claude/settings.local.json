@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:bun.com)",
+      "Bash(bun upgrade *)",
+      "Bash(bun *)",
+      "Bash(rm public/landscape.jpg public/optimized/landscape-*.webp)",
+      "Bash(mv public/the-cleveland-museum-of-art-sVmh0oTAnTw-unsplash.jpg public/landscape.jpg)",
+      "Bash(mv 'public/louise-pipet-ssS_SLIPzMM-unsplash.jpg' public/landscape.jpg)"
+    ]
+  }
+}
