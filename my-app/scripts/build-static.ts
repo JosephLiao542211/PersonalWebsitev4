@@ -31,7 +31,6 @@ const runtimeAssets = [
   ["public/resume.svg", "public/resume.svg"],
   ["public/linkdin.svg", "public/linkdin.svg"],
   ["public/github.svg", "public/github.svg"],
-  ["public/coming-soon.png", "public/coming-soon.png"],
   ["public/dev/Baobab.svg", "public/dev/Baobab.svg"],
   ["public/work/image.png", "public/work/image.png"],
 ];
