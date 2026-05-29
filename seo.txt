@@ -1,0 +1,177 @@
+For a **vanilla JS site**, the best SEO move is: **make the important content available as real HTML before JavaScript runs**.
+
+### 1. Use static HTML, not JS-rendered content
+
+Bad for SEO/AI scraping:
+
+```html
+<div id="app"></div>
+<script src="main.js"></script>
+```
+
+Better:
+
+```html
+<main>
+  <h1>Joseph Liao — Software Developer</h1>
+  <p>I build fast, practical software products...</p>
+</main>
+<script src="main.js" defer></script>
+```
+
+Google can render JS, but Google’s own docs still recommend making content crawlable and avoiding JS-dependent issues. ([Google for Developers][1])
+
+### 2. Add proper page metadata
+
+```html
+<title>Joseph Liao | Software Developer</title>
+<meta name="description" content="Personal website of Joseph Liao, a software developer and entrepreneur building AI and web products.">
+
+<link rel="canonical" href="https://yourdomain.com/">
+
+<meta property="og:title" content="Joseph Liao | Software Developer">
+<meta property="og:description" content="Software developer and entrepreneur building AI and web products.">
+<meta property="og:image" content="https://yourdomain.com/og-image.png">
+<meta property="og:url" content="https://yourdomain.com/">
+<meta name="twitter:card" content="summary_large_image">
+```
+
+### 3. Use semantic structure
+
+```html
+<header>...</header>
+<nav>...</nav>
+<main>
+  <section>
+    <h1>...</h1>
+    <p>...</p>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <article>
+      <h3>ScenarioGPT</h3>
+      <p>AI software product for military scenario generation...</p>
+    </article>
+  </section>
+</main>
+<footer>...</footer>
+```
+
+AI scrapers love clean, boring HTML. Use real headings, paragraphs, lists, links, and articles.
+
+### 4. Add structured data
+
+For a personal website:
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Joseph Liao",
+  "url": "https://yourdomain.com",
+  "sameAs": [
+    "https://github.com/yourhandle",
+    "https://www.linkedin.com/in/yourhandle"
+  ],
+  "jobTitle": "Software Developer"
+}
+</script>
+```
+
+Structured data should match visible page content; Bing explicitly warns against misleading structured data. ([bing.com][2])
+
+### 5. Add `sitemap.xml`
+
+```xml
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://yourdomain.com/</loc>
+    <lastmod>2026-05-28</lastmod>
+  </url>
+</urlset>
+```
+
+Submit it to Google Search Console and Bing Webmaster Tools. Bing also recommends IndexNow for faster URL discovery. ([bing.com][3])
+
+### 6. Add `robots.txt`
+
+```txt
+User-agent: *
+Allow: /
+
+Sitemap: https://yourdomain.com/sitemap.xml
+```
+
+Robots.txt controls crawler access, but it is not a secure way to hide pages from search results. ([Google for Developers][4])
+
+For AI crawlers, allow them if you want discoverability:
+
+```txt
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+```
+
+OpenAI documents separate crawler tokens like `GPTBot` and `OAI-SearchBot`. ([OpenAI Developers][5]) Google-Extended is controlled through robots.txt but does not use a separate HTTP user-agent string. ([Google for Developers][6])
+
+### 7. Make content easy to quote
+
+For AI search visibility, write pages with clear answers:
+
+```html
+<section>
+  <h2>What I do</h2>
+  <p>I build fast web applications, AI tools, and computer vision products.</p>
+</section>
+
+<section>
+  <h2>Notable projects</h2>
+  <ul>
+    <li><strong>ScenarioGPT:</strong> AI software product for military scenario generation.</li>
+    <li><strong>Local Reach:</strong> Computer vision startup for ad detection.</li>
+  </ul>
+</section>
+```
+
+Avoid hiding key info inside canvas animations, images, or JS-only interactions.
+
+### 8. Performance still matters
+
+Use:
+
+```html
+<script src="/main.js" defer></script>
+<link rel="preload" href="/fonts/yourfont.woff2" as="font" type="font/woff2" crossorigin>
+<img src="/image.webp" width="800" height="600" alt="..." loading="lazy">
+```
+
+Also compress images, use `.webp`/`.avif`, avoid layout shift, and keep JS tiny.
+
+### Best simple stack
+
+For your personal site:
+
+```txt
+/index.html
+/projects/index.html
+/about/index.html
+/contact/index.html
+/sitemap.xml
+/robots.txt
+```
+
+Use vanilla JS only for interactions. Put all core content directly in HTML. That is the cleanest setup for speed, SEO, and AI scraping.
+
+[1]: https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics?utm_source=chatgpt.com "Understand JavaScript SEO Basics | Google Search Central"
+[2]: https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a?utm_source=chatgpt.com "Bing Webmaster Guidelines"
+[3]: https://www.bing.com/webmasters/help/URL-Submission-62f2860b?utm_source=chatgpt.com "URL Submission - Bing Webmaster Tools"
+[4]: https://developers.google.com/search/docs/crawling-indexing/robots/intro?utm_source=chatgpt.com "Robots.txt Introduction and Guide | Google Search Central"
+[5]: https://developers.openai.com/api/docs/bots?utm_source=chatgpt.com "Overview of OpenAI Crawlers"
+[6]: https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers?utm_source=chatgpt.com "Google's common crawlers | Google Crawling Infrastructure"
