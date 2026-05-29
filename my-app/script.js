@@ -73,12 +73,7 @@ const jobs = [
     position: "Co-founder",
     meta: "Jan 2024 - Jan 2025 / Acquired by Taiv / Kingston, Ontario",
   },
-  {
-    icon: img.workSoti,
-    company: "SOTI Inc.",
-    position: "Software Developer Intern",
-    meta: "Jan 2024 - May 2024 / Mississauga, Ontario",
-  },
+ 
 ];
 
 const devItems = {

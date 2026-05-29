@@ -20,6 +20,10 @@ if (!result.success) {
 }
 
 const runtimeAssets = [
+  ["robots.txt", "robots.txt"],
+  ["sitemap.xml", "sitemap.xml"],
+  ["llms.txt", "llms.txt"],
+  ["humans.txt", "humans.txt"],
   ["public/optimized", "optimized"],
   ["public/Djingo.woff2", "public/Djingo.woff2"],
   [

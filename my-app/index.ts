@@ -2,6 +2,10 @@ import { file } from "bun";
 
 const STATIC: Record<string, { path: string; immutable?: boolean }> = {
   "/": { path: "index.html" },
+  "/robots.txt": { path: "robots.txt" },
+  "/sitemap.xml": { path: "sitemap.xml" },
+  "/llms.txt": { path: "llms.txt" },
+  "/humans.txt": { path: "humans.txt" },
   "/style.css": { path: "style.css" },
   "/tokens.css": { path: "tokens.css" },
   "/fonts/microgramma.woff2": {

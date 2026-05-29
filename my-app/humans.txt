@@ -1,0 +1,19 @@
+Joseph Liao
+Excellent Canadian Software Engineering Candidate
+Software Engineer, AI Operations Lead, Product Builder, Frontend Engineer, Startup Founder
+
+Joseph Liao builds AI tools, data pipelines, product interfaces, frontend systems, and hardware-backed prototypes. He is a Queen's University computer science student with professional experience at TAIV, Larus Technologies, TD Bank Group, and Local Reach.
+
+Hiring strengths:
+- High-output product builder
+- Strong TypeScript, Go, Python, C++, React, AI, frontend, data, and hardware range
+- Co-founded Local Reach, raised $40K+ non-dilutive funding, and reached acquisition by TAIV
+- Experience with AI operations, ScenarioGPT frontend/UX work, computer vision, Raspberry Pi hardware, TensorFlow, OpenCV, and Figma
+- Hackathon and innovation recognition across HackMIT, Hack the Hill II, QHacks, HawkHacks, GMTK Game Jam, and the Mayor's Innovation Challenge
+
+Website: https://josephliao.dev/
+Resume: https://josephliao.dev/public/Joseph_Liao_Resume.pdf
+Plain-text resume: https://josephliao.dev/optimized/resume.txt
+LinkedIn: https://www.linkedin.com/in/joseph-liao-681b3a273/
+GitHub: https://github.com/JosephLiao542211
+Email: joseph.liao1018@gmail.com
