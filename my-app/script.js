@@ -340,10 +340,10 @@ function art() {
     { src: img.artSmall, width: "clamp(92px, 10vw, 165px)" },
   ];
   const galleryItems = artImages
-    .map(({ src, width }) => `
-      <figure class="art-card" style="--art-width: ${width}">
-        <img src="${src}" alt="">
-      </figure>
+    .map(({ src, width }, index) => `
+      <button class="art-card" type="button" style="--art-width: ${width}" data-art-image="${src}" aria-label="Open artwork ${index + 1}">
+        <img src="${src}" alt="Artwork ${index + 1} by Joseph Liao" loading="lazy" decoding="async">
+      </button>
     `)
     .join("");
 
@@ -351,10 +351,47 @@ function art() {
     <div class="art-gallery" aria-label="Rotating art gallery">
       <div class="art-track">
         <div class="art-set">${galleryItems}</div>
-        <div class="art-set" aria-hidden="true">${galleryItems}</div>
+        <div class="art-set" aria-hidden="true" inert>${galleryItems}</div>
       </div>
     </div>
+    <div class="art-lightbox" hidden>
+      <button class="art-lightbox-close" type="button" aria-label="Close artwork preview">x</button>
+      <img alt="Selected artwork by Joseph Liao">
+    </div>
   `;
+
+  const lightbox = content.querySelector(".art-lightbox");
+  const lightboxImage = lightbox.querySelector("img");
+  const closeLightbox = () => {
+    lightbox.hidden = true;
+    lightboxImage.removeAttribute("src");
+  };
+
+  content.querySelector(".art-gallery").addEventListener("click", (event) => {
+    const card = event.target.closest("[data-art-image]");
+    if (!card) return;
+    lightboxImage.src = card.dataset.artImage;
+    lightbox.hidden = false;
+    content.querySelector(".art-lightbox-close").focus();
+  });
+
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox || event.target.closest(".art-lightbox-close")) {
+      closeLightbox();
+    }
+  });
+
+  const onEscape = (event) => {
+    if (activeSection === "art" && event.key === "Escape" && !lightbox.hidden) {
+      closeLightbox();
+    }
+  };
+
+  if (window.artLightboxEscape) {
+    window.removeEventListener("keydown", window.artLightboxEscape);
+  }
+  window.artLightboxEscape = onEscape;
+  window.addEventListener("keydown", window.artLightboxEscape);
 }
 
 function dev(active = "local") {
