@@ -139,14 +139,18 @@ h1 {
   padding: 0;
   background: transparent;
   cursor: pointer;
-  opacity: 0.82;
+  color: rgba(255, 255, 255, 0.48);
+  opacity: 1;
 }
 
-.nav button.active,
 .nav button:hover,
 .nav button:focus-visible {
-  opacity: 1;
+  color: rgba(255, 255, 255, 0.82);
   outline: 0;
+}
+
+.nav button.active {
+  color: #fff;
 }
 
 .content {
@@ -154,13 +158,13 @@ h1 {
   min-width: 0;
   display: block;
   overflow: hidden;
+  margin-top: clamp(28px, 4vw, 54px);
 }
 
 .landing {
   align-self: start;
   width: 100%;
   max-width: none;
-  margin-top: clamp(28px, 4vw, 54px);
   margin-left: 0;
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
@@ -267,7 +271,7 @@ h1 {
 
 .job {
   display: grid;
-  grid-template-columns: clamp(34px, 3.4vw, 52px) minmax(220px, 560px) 1fr;
+  grid-template-columns: clamp(42px, 4vw, 62px) minmax(220px, 560px) 1fr;
   align-items: center;
   gap: clamp(10px, 1.4vw, 22px);
   font-size: var(--font-size-page-copy);
@@ -275,8 +279,8 @@ h1 {
 }
 
 .job-mark {
-  width: clamp(34px, 3.4vw, 52px);
-  height: clamp(34px, 3.4vw, 52px);
+  width: clamp(42px, 4vw, 62px);
+  height: clamp(42px, 4vw, 62px);
   display: block;
   object-fit: contain;
 }
@@ -295,7 +299,7 @@ h1 {
 
 .job-company {
   color: #fff;
-  font-size: var(--font-size-page-title);
+  font-size: var(--font-size-page-menu);
   line-height: 1;
 }
 
@@ -624,6 +628,13 @@ h1 {
   overflow: hidden;
   min-width: 0;
   min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  appearance: none;
+  transition: transform 180ms ease, filter 180ms ease;
+  transform-origin: center;
 }
 
 .life-photo img {
@@ -631,6 +642,63 @@ h1 {
   height: 100%;
   display: block;
   object-fit: cover;
+}
+
+.life-photo:hover,
+.life-photo:focus-visible {
+  z-index: 2;
+  filter: brightness(1.08);
+  transform: scale(1.04);
+}
+
+.life-photo:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.86);
+  outline-offset: 6px;
+}
+
+.life-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vw, 56px);
+  background: rgba(0, 0, 0, 0.88);
+  cursor: zoom-out;
+}
+
+.life-lightbox[hidden] {
+  display: none;
+}
+
+.life-lightbox img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 1200px);
+  max-height: 86dvh;
+  object-fit: contain;
+  cursor: default;
+}
+
+.life-lightbox-close {
+  position: absolute;
+  top: clamp(16px, 2vw, 28px);
+  right: clamp(16px, 2vw, 28px);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+
+.life-lightbox-close:focus-visible,
+.life-lightbox-close:hover {
+  border-color: rgba(255, 255, 255, 0.92);
 }
 
 .life-note {
@@ -717,6 +785,14 @@ h1 {
 }
 
 @media (max-width: 760px) {
+  :root {
+    --font-size-xs: 11px;
+    --font-size-sm: 13px;
+    --font-size-md: 15px;
+    --font-size-lg: 20px;
+    --font-size-xl: 24px;
+  }
+
   body {
     overflow: auto;
   }
@@ -742,6 +818,16 @@ h1 {
     justify-self: start;
   }
 
+  .social a {
+    width: 26px;
+    height: 26px;
+  }
+
+  .social img {
+    width: 23px;
+    height: 23px;
+  }
+
   .art-gallery,
   .dev-layout,
   .life-layout,
@@ -757,6 +843,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .landing {
+    padding-bottom: clamp(80px, 22vw, 132px);
+  }
+
   .about,
   .experience-panel {
     max-width: none;
@@ -767,7 +857,7 @@ h1 {
   .about {
     max-width: none;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: clamp(34px, 9vw, 58px);
   }
 
   .about-portrait {
@@ -792,11 +882,12 @@ h1 {
   }
 
   .experience-panel {
-    margin-top: clamp(12px, 5vw, 28px);
+    margin-top: clamp(46px, 14vw, 82px);
   }
 
   .experience {
     justify-items: stretch;
+    gap: clamp(16px, 4vw, 24px);
   }
 
   .dev-layout {
@@ -814,7 +905,7 @@ h1 {
 
   .dev-mobile-list {
     display: grid;
-    gap: 36px;
+    gap: clamp(52px, 14vw, 76px);
   }
 
   .dev-project-copy {
@@ -823,7 +914,12 @@ h1 {
   }
 
   .job {
-    grid-template-columns: clamp(34px, 3.4vw, 52px) 1fr;
+    grid-template-columns: clamp(46px, 12vw, 58px) 1fr;
+  }
+
+  .job-mark {
+    width: clamp(46px, 12vw, 58px);
+    height: clamp(46px, 12vw, 58px);
   }
 
   .job-line {
@@ -864,7 +960,8 @@ h1 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .art-card {
+  .art-card,
+  .life-photo {
     transition: none;
   }
 }

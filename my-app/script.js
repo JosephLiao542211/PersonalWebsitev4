@@ -496,13 +496,50 @@ function life() {
         }
 
         return `
-          <figure class="life-photo ${tile.className}">
-            <img src="${tile.src}" alt="">
-          </figure>
+          <button class="life-photo ${tile.className}" type="button" data-life-image="${tile.src}" aria-label="Open life photo">
+            <img src="${tile.src}" alt="Life photo by Joseph Liao" loading="lazy" decoding="async">
+          </button>
         `;
       }).join("")}
     </div>
+    <div class="life-lightbox" hidden>
+      <button class="life-lightbox-close" type="button" aria-label="Close photo preview">x</button>
+      <img alt="Selected life photo by Joseph Liao">
+    </div>
   `;
+
+  const lightbox = content.querySelector(".life-lightbox");
+  const lightboxImage = lightbox.querySelector("img");
+  const closeLightbox = () => {
+    lightbox.hidden = true;
+    lightboxImage.removeAttribute("src");
+  };
+
+  content.querySelector(".life-layout").addEventListener("click", (event) => {
+    const photo = event.target.closest("[data-life-image]");
+    if (!photo) return;
+    lightboxImage.src = photo.dataset.lifeImage;
+    lightbox.hidden = false;
+    content.querySelector(".life-lightbox-close").focus();
+  });
+
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox || event.target.closest(".life-lightbox-close")) {
+      closeLightbox();
+    }
+  });
+
+  const onEscape = (event) => {
+    if (activeSection === "life" && event.key === "Escape" && !lightbox.hidden) {
+      closeLightbox();
+    }
+  };
+
+  if (window.lifeLightboxEscape) {
+    window.removeEventListener("keydown", window.lifeLightboxEscape);
+  }
+  window.lifeLightboxEscape = onEscape;
+  window.addEventListener("keydown", window.lifeLightboxEscape);
 }
 
 function route(section) {
