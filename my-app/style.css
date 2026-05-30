@@ -822,6 +822,11 @@ h1 {
     justify-self: start;
   }
 
+  .art-gallery {
+    padding-top: clamp(36px, 10vw, 68px);
+    padding-bottom: clamp(52px, 14vw, 88px);
+  }
+
   .social a {
     width: 26px;
     height: 26px;
@@ -981,7 +986,8 @@ h1 {
   }
 
   .art-card img {
-    max-width: 70vw;
+    width: calc(var(--art-width) * 1.28);
+    max-width: 84vw;
   }
 }
 
