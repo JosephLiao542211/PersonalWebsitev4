@@ -269,6 +269,10 @@ h1 {
   text-align: left;
 }
 
+.experience-panel .label {
+  margin-bottom: clamp(18px, 2.2vw, 28px);
+}
+
 .job {
   display: grid;
   grid-template-columns: clamp(42px, 4vw, 62px) minmax(220px, 560px) 1fr;
@@ -299,7 +303,7 @@ h1 {
 
 .job-company {
   color: #fff;
-  font-size: var(--font-size-page-menu);
+  font-size: var(--font-size-page-title);
   line-height: 1;
 }
 
@@ -885,6 +889,10 @@ h1 {
     margin-top: clamp(46px, 14vw, 82px);
   }
 
+  .experience-panel .label {
+    margin-bottom: clamp(22px, 6vw, 36px);
+  }
+
   .experience {
     justify-items: stretch;
     gap: clamp(16px, 4vw, 24px);
@@ -910,7 +918,25 @@ h1 {
 
   .dev-project-copy {
     font-size: var(--font-size-page-copy);
-    line-height: 1.45;
+    line-height: 1.55;
+  }
+
+  .dev-project-copy .dev-title {
+    margin-bottom: 14px;
+  }
+
+  .dev-description {
+    margin-bottom: 20px;
+  }
+
+  .dev-points {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .dev-point {
+    margin: 0;
   }
 
   .job {

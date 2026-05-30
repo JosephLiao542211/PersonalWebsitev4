@@ -245,11 +245,13 @@ function renderDevProject(item) {
         ${item.status ? `
           <p class="dev-status">${item.status}</p>
           <h2 class="dev-title">${item.title}</h2>
-          <p>${item.comingSoonText}</p>
+          <p class="dev-description">${item.comingSoonText}</p>
         ` : `
           <h2 class="dev-title">${item.title}</h2>
-          <p>${item.text}</p>
-          <p>${item.details.map((detail) => `&gt; ${detail}`).join("<br>")}</p>
+          <p class="dev-description">${item.text}</p>
+          <div class="dev-points">
+            ${item.details.map((detail) => `<p class="dev-point">&gt; ${detail}</p>`).join("")}
+          </div>
         `}
         ${item.links ? `
           <div class="dev-links" aria-label="${item.title} links">
