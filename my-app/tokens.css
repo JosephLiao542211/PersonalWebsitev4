@@ -10,3 +10,13 @@
   --font-size-page-title: var(--font-size-lg);
   --font-size-nav: var(--font-size-lg);
 }
+
+@media (max-width: 1100px) {
+  :root {
+    --font-size-xs: clamp(8px, 0.72vw, 10px);
+    --font-size-sm: clamp(9px, 0.84vw, 11px);
+    --font-size-md: clamp(10px, 0.98vw, 13px);
+    --font-size-lg: clamp(12px, 1.28vw, 16px);
+    --font-size-xl: clamp(14px, 1.62vw, 20px);
+  }
+}
