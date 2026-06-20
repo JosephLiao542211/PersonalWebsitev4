@@ -14,5 +14,8 @@
     "build": "bun scripts/build-static.ts",
     "optimize": "bun scripts/optimize-images.ts"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
 }

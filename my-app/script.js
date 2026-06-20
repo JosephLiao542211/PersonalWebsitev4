@@ -1,3 +1,7 @@
+import { inject } from "@vercel/analytics";
+
+inject();
+
 const content = document.querySelector("#content");
 const navButtons = [...document.querySelectorAll("[data-section]")];
 let activeSection = "";
