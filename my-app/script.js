@@ -2,9 +2,12 @@ import { inject } from "@vercel/analytics";
 
 inject();
 
-const content = document.querySelector("#content");
-const navButtons = [...document.querySelectorAll("[data-section]")];
-let activeSection = "";
+const sections = {
+  "": document.querySelector("#home"),
+  art: document.querySelector("#art"),
+  dev: document.querySelector("#dev"),
+  life: document.querySelector("#life"),
+};
 
 const img = {
   artRain: "/optimized/art-file-000-5-1920.webp",
@@ -41,6 +44,7 @@ const img = {
   workImage19: "/optimized/work-image-19-205.webp",
   workRectangle13: "/optimized/work-rectangle-13-205.webp",
   workSoti: "/public/work/image.png",
+  workWealthsimple: "/optimized/work-wealthsimple-447.webp",
   portrait: "/optimized/life-img-1882-1024.webp",
   comingSoon: "/public/coming-soon.png",
   devLocalReach: "/optimized/dev-localreach-1024.webp",
@@ -56,24 +60,28 @@ const jobs = [
   {
     icon: img.workImage18,
     company: "TAIV YCW20",
+    start: "2025-01",
     position: "Software Engineer, AI Operations Lead",
     meta: "Jan 2025 - Jan 2026 / Winnipeg, Manitoba",
   },
   {
     icon: img.workImage19,
     company: "Larus Technologies",
+    start: "2025-09",
     position: "Software Developer",
     meta: "Sept 2025 - Present / Contract / Ottawa, Ontario",
   },
   {
     icon: img.workRectangle13,
     company: "TD Bank Group",
+    start: "2026-01",
     position: "Software Developer Intern",
     meta: "Jan 2026 - May 2026 / Toronto, Ontario",
   },
   {
     icon: img.workImage17,
     company: "Local Reach",
+    start: "2024-01",
     position: "Co-founder",
     meta: "Jan 2024 - Jan 2025 / Acquired by Taiv / Kingston, Ontario",
   },
@@ -267,14 +275,8 @@ function renderDevProject(item) {
   `;
 }
 
-function setActive(section) {
-  navButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.section === section);
-  });
-}
-
 function landing() {
-  setActive("");
+  const content = sections[""];
   content.innerHTML = `
     <div class="landing">
       <section class="about" aria-labelledby="about-title">
@@ -323,7 +325,7 @@ function landing() {
 }
 
 function art() {
-  setActive("art");
+  const content = sections.art;
   const artImages = [
     { src: img.artRain, width: "clamp(210px, 22vw, 410px)" },
     { src: img.artPhoto, width: "clamp(110px, 12vw, 190px)" },
@@ -388,20 +390,16 @@ function art() {
   });
 
   const onEscape = (event) => {
-    if (activeSection === "art" && event.key === "Escape" && !lightbox.hidden) {
+    if (event.key === "Escape" && !lightbox.hidden) {
       closeLightbox();
     }
   };
 
-  if (window.artLightboxEscape) {
-    window.removeEventListener("keydown", window.artLightboxEscape);
-  }
-  window.artLightboxEscape = onEscape;
-  window.addEventListener("keydown", window.artLightboxEscape);
+  window.addEventListener("keydown", onEscape);
 }
 
 function dev(active = "local") {
-  setActive("dev");
+  const content = sections.dev;
   const item = devItems[active] || devItems.local;
   const mobileProjects = devOrder.map((key) => renderDevProject(devItems[key])).join("");
   content.innerHTML = `
@@ -488,7 +486,7 @@ const lifeTiles = [
 ];
 
 function life() {
-  setActive("life");
+  const content = sections.life;
   content.innerHTML = `
     <div class="life-layout" aria-label="Life photo mosaic">
       ${lifeTiles.map((tile) => {
@@ -536,33 +534,58 @@ function life() {
   });
 
   const onEscape = (event) => {
-    if (activeSection === "life" && event.key === "Escape" && !lightbox.hidden) {
+    if (event.key === "Escape" && !lightbox.hidden) {
       closeLightbox();
     }
   };
 
-  if (window.lifeLightboxEscape) {
-    window.removeEventListener("keydown", window.lifeLightboxEscape);
+  window.addEventListener("keydown", onEscape);
+}
+
+function scrollToSection(section, behavior = "smooth") {
+  if (!section) {
+    window.scrollTo({ top: 0, behavior });
+    return;
   }
-  window.lifeLightboxEscape = onEscape;
-  window.addEventListener("keydown", window.lifeLightboxEscape);
+  sections[section]?.scrollIntoView({ behavior, block: "start" });
 }
 
-function route(section) {
-  activeSection = section || "";
-  if (section === "art") art();
-  else if (section === "dev") dev();
-  else if (section === "life") life();
-  else landing();
+// Shown in the masthead only; not yet listed under professional experience.
+const upcoming = [{ icon: img.workWealthsimple, company: "Wealthsimple" }];
+
+function renderCompanyMarks() {
+  const recentFirst = [...jobs].sort((a, b) => b.start.localeCompare(a.start));
+  document.querySelector(".company-marks").innerHTML = [...upcoming, ...recentFirst]
+    .map((job) => `
+      <span class="company-mark" title="${job.company}">
+        <img src="${job.icon}" alt="${job.company}">
+      </span>
+    `)
+    .join("");
 }
 
-navButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const section = button.dataset.section;
-    history.replaceState(null, "", section ? `#${section}` : location.pathname);
-    route(button.dataset.section);
-  });
-});
+renderCompanyMarks();
 
-window.addEventListener("hashchange", () => route(location.hash.slice(1)));
-route(location.hash.slice(1));
+// Scale the name so it spans the full masthead width at the font's natural proportions.
+function fitName() {
+  const name = document.querySelector(".name-mark");
+  name.style.fontSize = "100px";
+  name.style.fontSize = `${(100 * name.parentElement.clientWidth) / name.scrollWidth}px`;
+}
+
+fitName();
+document.fonts.ready.then(fitName);
+window.addEventListener("resize", fitName);
+
+landing();
+art();
+dev();
+life();
+
+window.addEventListener("hashchange", () => scrollToSection(location.hash.slice(1)));
+if (location.hash) {
+  // Late-loading images shift section offsets, so re-align once they finish.
+  const jump = () => scrollToSection(location.hash.slice(1), "auto");
+  jump();
+  window.addEventListener("load", jump, { once: true });
+}

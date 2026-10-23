@@ -15,7 +15,7 @@ const STATIC: Record<string, { path: string; immutable?: boolean }> = {
 };
 
 const server = Bun.serve({
-  port: Number(process.env.PORT ?? 3000),
+  port: Number(process.env.PORT ?? 4000),
   development: process.env.NODE_ENV !== "production",
 
   async fetch(req) {

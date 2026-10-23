@@ -1,4 +1,9 @@
 :root {
+  /* Near-black and near-white; the site avoids pure #000 / #fff. */
+  --color-bg-rgb: 18 18 19;
+  --color-fg-rgb: 240 240 238;
+  --color-bg: rgb(var(--color-bg-rgb));
+  --color-fg: rgb(var(--color-fg-rgb));
   --font-size-xs: clamp(8px, 0.7vw, 11px);
   --font-size-sm: clamp(9px, 0.78vw, 12px);
   --font-size-md: clamp(11px, 0.9vw, 15px);
