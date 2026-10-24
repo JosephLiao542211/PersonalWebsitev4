@@ -1,5 +1,6 @@
 import { cp, mkdir, rm } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { prerender } from "./prerender";
 
 await rm("dist", { recursive: true, force: true });
 
@@ -8,7 +9,7 @@ if (!Bun.env.CI) {
 }
 
 const result = await Bun.build({
-  entrypoints: ["index.html"],
+  entrypoints: ["index.html", "portfolio.html", "blog.html"],
   outdir: "dist",
   minify: true,
 });
@@ -18,6 +19,9 @@ if (!result.success) {
   for (const log of result.logs) console.error(log);
   process.exit(1);
 }
+
+const indexHtml = Bun.file("dist/index.html");
+await Bun.write(indexHtml, prerender(await indexHtml.text()));
 
 const runtimeAssets = [
   ["robots.txt", "robots.txt"],
@@ -33,6 +37,7 @@ const runtimeAssets = [
   ["public/JOSEPH LIAO.svg", "public/JOSEPH LIAO.svg"],
   ["public/Joseph_Liao_Resume.pdf", "public/Joseph_Liao_Resume.pdf"],
   ["public/resume.svg", "public/resume.svg"],
+  ["public/brand", "public/brand"],
   ["public/linkdin.svg", "public/linkdin.svg"],
   ["public/github.svg", "public/github.svg"],
   ["public/dev/Baobab.svg", "public/dev/Baobab.svg"],

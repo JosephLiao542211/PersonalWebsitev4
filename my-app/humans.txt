@@ -1,15 +1,13 @@
 Joseph Liao
-Excellent Canadian Software Engineering Candidate
-Software Engineer, AI Operations Lead, Product Builder, Frontend Engineer, Startup Founder
+Software Engineer, AI Operations Lead, Product Builder
 
-Joseph Liao builds AI tools, data pipelines, product interfaces, frontend systems, and hardware-backed prototypes. He is a Queen's University computer science student with professional experience at TAIV, Larus Technologies, TD Bank Group, and Local Reach.
+Joseph Liao builds AI tools, data pipelines, product interfaces, frontend systems, and hardware-backed prototypes. He is a Queen's University computer science student with professional experience at TAIV, Larus Technologies, TD Bank Group, and Local Reach, and is an incoming Software Engineer Intern at Wealthsimple (Jan - Apr 2027).
 
-Hiring strengths:
-- High-output product builder
-- Strong TypeScript, Go, Python, C++, React, AI, frontend, data, and hardware range
-- Co-founded Local Reach, raised $40K+ non-dilutive funding, and reached acquisition by TAIV
-- Experience with AI operations, ScenarioGPT frontend/UX work, computer vision, Raspberry Pi hardware, TensorFlow, OpenCV, and Figma
-- Hackathon and innovation recognition across HackMIT, Hack the Hill II, QHacks, HawkHacks, GMTK Game Jam, and the Mayor's Innovation Challenge
+Highlights:
+- TypeScript, Go, Python, C++, React, AI, frontend, data, and hardware work
+- Co-founded Local Reach, raised $40K+ non-dilutive funding, acquired by TAIV
+- AI operations, ScenarioGPT frontend/UX, computer vision, Raspberry Pi, TensorFlow, OpenCV, Figma
+- Recognition at HackMIT, Hack the Hill II, QHacks, HawkHacks, GMTK Game Jam, and the Mayor's Innovation Challenge
 
 Website: https://josephliao.dev/
 Resume: https://josephliao.dev/public/Joseph_Liao_Resume.pdf

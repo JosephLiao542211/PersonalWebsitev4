@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blog | Joseph Liao</title>
+  <meta name="description" content="Writing by Joseph Liao on building products, AI tools, and design. Coming soon.">
+  <!-- Placeholder page: keep it out of search until the first posts ship. -->
+  <meta name="robots" content="noindex,follow">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    @font-face {
+      font-family: "Djingo";
+      src: url("/public/Djingo.woff2") format("woff2");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "IBM Plex Mono";
+      src: url("/public/ibm-plex-mono-v20-latin-regular.woff2") format("woff2");
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 24px;
+      padding: clamp(24px, 3vw, 40px) clamp(18px, 3vw, 44px) clamp(26px, 4vh, 56px);
+      background: var(--color-bg);
+      color: var(--color-fg);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    a {
+      color: rgb(var(--color-fg-rgb) / 0.6);
+      font-size: var(--font-size-page-label);
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--color-fg);
+      outline: 0;
+    }
+
+    main {
+      align-self: end;
+    }
+
+    .label {
+      margin: 0 0 clamp(14px, 1.6vw, 24px);
+      font-size: var(--font-size-page-label);
+      line-height: 1;
+      color: rgb(var(--color-fg-rgb) / 0.6);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Djingo", sans-serif;
+      font-size: 22vw;
+      font-weight: 400;
+      line-height: 0.8;
+      text-box: trim-both cap alphabetic;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <a href="/">&larr; back to josephliao</a>
+  <main>
+    <p class="label">writing on building things (coming soon)</p>
+    <h1>BLOG.</h1>
+  </main>
+</body>
+</html>

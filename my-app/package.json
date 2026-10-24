@@ -12,7 +12,8 @@
     "dev": "bun --hot index.ts",
     "start": "NODE_ENV=production bun index.ts",
     "build": "bun scripts/build-static.ts",
-    "optimize": "bun scripts/optimize-images.ts"
+    "optimize": "bun scripts/optimize-images.ts",
+    "optimize:life": "bash scripts/optimize-life.sh"
   },
   "type": "module",
   "dependencies": {
