@@ -69,32 +69,6 @@ a { text-decoration: none; }
   box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
 }
 
-h1 {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  border: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.seo-profile {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  border: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 .top-links {
   position: absolute;
   top: var(--frame-pad-top);
@@ -225,6 +199,7 @@ h1 {
   width: max-content;
   margin: 0;
   font-family: "Djingo", sans-serif;
+  font-weight: 400;
   font-size: 30vw;
   line-height: 0.8;
   text-box: trim-both cap alphabetic;
@@ -446,8 +421,8 @@ h1 {
   word-spacing: -0.15em;
   /* Bouquets tucked into the bottom-left and top-right corners, seen only through the letters. */
   background:
-    url("/optimized/art-bouquet-04.webp") left -0.41em bottom -0.67em / auto 170% no-repeat,
-    url("/optimized/art-bouquet-05.webp") right -0.55em top -0.35em / auto 120% no-repeat,
+    url("public/optimized/art-bouquet-04.webp") left -0.41em bottom -0.67em / auto 170% no-repeat,
+    url("public/optimized/art-bouquet-05.webp") right -0.55em top -0.35em / auto 120% no-repeat,
     var(--color-fg);
   -webkit-background-clip: text;
   background-clip: text;

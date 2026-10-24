@@ -1,4 +1,5 @@
 import { file } from "bun";
+import { prerender } from "./scripts/prerender";
 
 const STATIC: Record<string, { path: string; immutable?: boolean }> = {
   "/": { path: "index.html" },
@@ -35,6 +36,13 @@ const server = Bun.serve({
 
       return new Response(await result.outputs[0].text(), {
         headers: { "Content-Type": "text/javascript; charset=utf-8" },
+      });
+    }
+
+    // Serve the homepage prerendered, matching the production build.
+    if (url.pathname === "/") {
+      return new Response(prerender(await file("index.html").text()), {
+        headers: { "Content-Type": "text/html; charset=utf-8" },
       });
     }
 
