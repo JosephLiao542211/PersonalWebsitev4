@@ -38,21 +38,35 @@ a { text-decoration: none; }
   --frame-pad-top: clamp(24px, 3vw, 40px);
   --frame-pad-bottom: clamp(26px, 4vh, 56px);
   --frame-pad-x: clamp(18px, 3vw, 44px);
+  --door-height: 100svh;
+  position: relative;
   width: 100%;
   max-width: 100vw;
   min-height: 100dvh;
   display: grid;
-  grid-template-rows: auto 1fr;
-  padding: var(--frame-pad-top) var(--frame-pad-x) var(--frame-pad-bottom);
+  padding: 0 var(--frame-pad-x);
   background: var(--color-bg);
-  overflow: hidden;
+  /* clip, not hidden: hidden would make .frame the scroll container and break the sticky .content. */
+  overflow: clip;
 }
 
+/* Scroll runway: one door-height of extra page for the door to lift through while .content stays stuck. */
+.frame::after {
+  content: "";
+  height: var(--door-height);
+}
+
+/* Garage door: a plain block over the first screen that scrolls away natively, no JS. */
 .masthead {
-  position: relative;
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 10;
   display: grid;
   align-content: end;
-  height: calc(100dvh - var(--frame-pad-top) - var(--frame-pad-bottom));
+  height: var(--door-height);
+  padding: var(--frame-pad-top) var(--frame-pad-x) var(--frame-pad-bottom);
+  background: var(--color-bg);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
 }
 
 h1 {
@@ -83,8 +97,8 @@ h1 {
 
 .top-links {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: var(--frame-pad-top);
+  right: var(--frame-pad-x);
   display: flex;
   gap: clamp(12px, 1.4vw, 22px);
   font-size: var(--font-size-page-label);
@@ -168,8 +182,8 @@ h1 {
   min-height: 0;
   min-width: 0;
   display: block;
-  margin-top: clamp(96px, 14vw, 220px);
 }
+
 
 .page-section {
   --section-height: max(360px, calc(59dvh - 110px));
@@ -186,9 +200,12 @@ h1 {
   --color-fg-rgb: 30 30 32;
   --color-bg: rgb(var(--color-bg-rgb));
   --color-fg: rgb(var(--color-fg-rgb));
+  /* Stuck at the top until the runway runs out, so it sits still while the door lifts off it. */
+  position: sticky;
+  top: 0;
   margin-inline: calc(var(--frame-pad-x) * -1);
-  margin-bottom: calc(var(--frame-pad-bottom) * -1);
-  padding: clamp(48px, 6vw, 96px) var(--frame-pad-x);
+  /* A little extra room up top to absorb overscroll past the door. */
+  padding: clamp(88px, 10vw, 180px) var(--frame-pad-x) clamp(48px, 6vw, 96px);
   background: var(--color-bg);
   color: var(--color-fg);
 }
@@ -329,12 +346,42 @@ h1 {
   overflow: hidden;
 }
 
-.art-word {
+/* Centered by grid, not transform, so .art-portfolio can stack above the orbiting cards. */
+.art-title {
   position: absolute;
-  top: 50%;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.art-title-stack {
+  position: relative;
+}
+
+/* Hangs below the word so "MY ART" stays dead center. */
+.art-portfolio {
+  position: absolute;
+  z-index: 3;
+  pointer-events: auto;
+  top: calc(100% + clamp(14px, 1.6vw, 24px));
   left: 50%;
+  transform: translateX(-50%);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: var(--font-size-md);
+  line-height: 1;
+  white-space: nowrap;
+  color: rgb(var(--color-fg-rgb) / 0.6);
+}
+
+.art-portfolio:hover,
+.art-portfolio:focus-visible {
+  color: var(--color-fg);
+  outline: 0;
+}
+
+.art-word {
   margin: 0;
-  transform: translate(-50%, -50%);
   font-family: "Djingo", sans-serif;
   font-size: clamp(120px, 34vmin, 420px);
   font-weight: 400;

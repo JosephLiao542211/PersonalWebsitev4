@@ -328,12 +328,13 @@ function art() {
     img.artImg1211, img.artImg1214, img.artImg1219, img.artFigurePair, img.artImg1221, img.artImg1223A,
     img.artImg1223B, img.artImg1233, img.artThanos, img.artImg1234, img.artSmall,
   ];
-  // Concentric orbits around the word: radius is a fraction of the available half-width/height,
-  // speed is revolutions per second (sign sets direction), size scales the cards.
+  // Concentric orbits around the title: radius places the ring across the band between the title
+  // (0, just clear of it) and the section edge (1); negative values shrink inside that clearance, letting
+  // cards brush the title. speed is revolutions per second (sign sets direction), size scales the cards.
   const rings = [
-    { count: 6, radius: 0.52, speed: 1 / 70, size: 0.85 },
-    { count: 8, radius: 0.76, speed: -1 / 95, size: 1 },
-    { count: 10, radius: 0.97, speed: 1 / 120, size: 1.15 },
+    { count: 6, radius: -0.2, speed: 1 / 70, size: 0.85 },
+    { count: 8, radius: 0.5, speed: -1 / 95, size: 1 },
+    { count: 10, radius: 1, speed: 1 / 120, size: 1.15 },
   ];
 
   let next = 0;
@@ -347,7 +348,12 @@ function art() {
 
   content.innerHTML = `
     <div class="art-orbit" aria-label="Art gallery">
-      <h2 class="art-word">MY ART</h2>
+      <div class="art-title">
+        <div class="art-title-stack">
+          <h2 class="art-word">MY ART</h2>
+          <a class="art-portfolio" href="/portfolio">serious design portfolio (coming soon)</a>
+        </div>
+      </div>
       ${cards.map(({ ring, src }, index) => `
         <button class="art-card" type="button" style="--art-size: ${rings[ring].size}" data-art-image="${src}" aria-label="Open artwork ${index + 1}">
           <img src="${src}" alt="Artwork ${index + 1} by Joseph Liao" loading="lazy" decoding="async">
@@ -397,6 +403,7 @@ function art() {
 
 function orbitArt(rings, cards) {
   const orbit = sections.art.querySelector(".art-orbit");
+  const title = orbit.querySelector(".art-title-stack");
   const elements = [...orbit.querySelectorAll(".art-card")];
   const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Per-card hold: a hovered card eases out of its ring and parks where it was (h -> 1),
@@ -405,19 +412,44 @@ function orbitArt(rings, cards) {
   let elapsed = 0;
   let last = 0;
   let visible = false;
+  // Ring radii per axis, from the inner (clear of the title) to the outer (inside the section) ellipse.
+  let inner = { x: 0, y: 0 };
+  let outer = { x: 0, y: 0 };
 
-  const place = (dt = 0) => {
+  const measure = () => {
     // Keep the outer ring's cards inside the section: inset by the largest card's half-size.
     const inset = Math.max(...elements.map((el) => Math.max(el.offsetWidth, el.offsetHeight))) / 2;
-    const rx = orbit.clientWidth / 2 - inset;
-    const ry = orbit.clientHeight / 2 - inset;
+    outer = { x: orbit.clientWidth / 2 - inset, y: orbit.clientHeight / 2 - inset };
+
+    // Title box (word + portfolio link) as half-extents from the orbit center, padded by an average card.
+    const box = orbit.getBoundingClientRect();
+    const cx = box.left + box.width / 2;
+    const cy = box.top + box.height / 2;
+    const parts = [title.querySelector(".art-word"), title.querySelector(".art-portfolio")]
+      .map((el) => el.getBoundingClientRect());
+    const cardW = elements.reduce((sum, el) => sum + el.offsetWidth, 0) / elements.length;
+    const cardH = elements.reduce((sum, el) => sum + el.offsetHeight, 0) / elements.length;
+    const gap = 16;
+    const clearX = Math.max(...parts.flatMap((r) => [cx - r.left, r.right - cx])) + cardW / 2 + gap;
+    const clearY = Math.max(...parts.flatMap((r) => [cy - r.top, r.bottom - cy])) + cardH / 2 + gap;
+
+    // Smallest ellipse that never crosses that box: at the corner angle, x must clear clearX while y
+    // still clears clearY. Take the vertical radius first (room is tighter there), then solve for x.
+    const y = Math.min(clearY * Math.SQRT2, outer.y);
+    const x = y > clearY ? clearX / Math.sqrt(1 - (clearY / y) ** 2) : outer.x;
+    inner = { x: Math.min(x, outer.x), y };
+  };
+
+  const place = (dt = 0) => {
     const ease = 1 - Math.exp(-dt * 9);
     elements.forEach((el, i) => {
       const { ring, phase } = cards[i];
       const hold = holds[i];
       const angle = (phase + elapsed * rings[ring].speed) * Math.PI * 2;
-      const orbitX = Math.cos(angle) * rx * rings[ring].radius;
-      const orbitY = Math.sin(angle) * ry * rings[ring].radius;
+      const t = rings[ring].radius;
+      const along = (a, b) => (t < 0 ? a * (1 + t) : a + (b - a) * t);
+      const orbitX = Math.cos(angle) * along(inner.x, outer.x);
+      const orbitY = Math.sin(angle) * along(inner.y, outer.y);
       hold.h += (hold.target - hold.h) * ease;
       if (Math.abs(hold.target - hold.h) < 0.001) hold.h = hold.target;
       hold.renderX = orbitX + (hold.x - orbitX) * hold.h;
@@ -452,9 +484,15 @@ function orbitArt(rings, cards) {
       el.addEventListener("blur", () => release(i));
     });
   }
-  window.addEventListener("resize", () => place());
-  elements.forEach((el) => el.querySelector("img").addEventListener("load", () => place(), { once: true }));
-  place();
+  const remeasure = () => {
+    measure();
+    place();
+  };
+  // The title is resized by fitAboutTitle after fonts load, so watch it rather than the window.
+  new ResizeObserver(remeasure).observe(title);
+  new ResizeObserver(remeasure).observe(orbit);
+  elements.forEach((el) => el.querySelector("img").addEventListener("load", remeasure, { once: true }));
+  remeasure();
 
   if (still) return;
   new IntersectionObserver(([entry]) => {
@@ -842,8 +880,19 @@ function scrollToSection(section, behavior = "smooth") {
     window.scrollTo({ top: 0, behavior });
     return;
   }
-  sections[section]?.scrollIntoView({ behavior, block: "start" });
+  const target = sections[section];
+  if (!target) return;
+  // .content is sticky, so measure from it and add the door height it scrolls past.
+  const content = document.querySelector("#content");
+  const door = document.querySelector(".masthead").offsetHeight;
+  const top =
+    target.getBoundingClientRect().top -
+    content.getBoundingClientRect().top +
+    door -
+    parseFloat(getComputedStyle(target).scrollMarginTop);
+  window.scrollTo({ top, behavior });
 }
+
 
 // Shown in the masthead only; not yet listed under professional experience.
 const upcoming = [{ icon: img.workWealthsimple, company: "Wealthsimple" }];
@@ -870,7 +919,12 @@ renderCompanyMarks();
 function fitName() {
   const name = document.querySelector(".name-mark");
   name.style.fontSize = "100px";
-  name.style.fontSize = `${(100 * name.parentElement.clientWidth) / name.scrollWidth}px`;
+  const box = getComputedStyle(name.parentElement);
+  const width =
+    name.parentElement.clientWidth -
+    parseFloat(box.paddingLeft) -
+    parseFloat(box.paddingRight);
+  name.style.fontSize = `${(100 * width) / name.scrollWidth}px`;
 }
 
 fitName();

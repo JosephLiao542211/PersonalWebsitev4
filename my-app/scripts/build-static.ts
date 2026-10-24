@@ -8,7 +8,7 @@ if (!Bun.env.CI) {
 }
 
 const result = await Bun.build({
-  entrypoints: ["index.html"],
+  entrypoints: ["index.html", "portfolio.html"],
   outdir: "dist",
   minify: true,
 });
