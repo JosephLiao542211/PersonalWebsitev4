@@ -342,13 +342,16 @@ function fitMonitorScreen() {
 window.addEventListener("resize", fitDevSection);
 
 // Horizontal inset (%) so edge polaroids aren't clipped by the viewport.
-const lifeInset = (narrow) => (narrow ? 11 : 4);
+const lifeInset = (narrow) => (narrow ? 10 : 4);
+
+// Phones show only the first photos so the board stays about a screen tall (style.css hides the rest).
+const lifeMobileCount = 30;
 
 // Picks the fewest rows that fit every photo once the cells under the title
 // (plus roughly half a polaroid of margin) are left empty. Rows set the
 // section's height through --life-rows, so each try is measured for real.
 function lifeGrid(count, narrow, section, board, title) {
-  const cols = narrow ? 5 : 12;
+  const cols = narrow ? 6 : 12;
   const inset = lifeInset(narrow);
   for (let rows = 4; ; rows++) {
     section.style.setProperty("--life-rows", rows);
@@ -403,8 +406,9 @@ function life() {
   const title = board.querySelector(".life-title");
   const narrow = window.matchMedia("(max-width: 760px)");
   const layoutPolaroids = () => {
-    const grid = lifeGrid(polaroids.length, narrow.matches, content, board, title);
-    scatterPolaroids(polaroids.length, grid, narrow.matches).forEach((spot, i) => {
+    const count = narrow.matches ? Math.min(lifeMobileCount, polaroids.length) : polaroids.length;
+    const grid = lifeGrid(count, narrow.matches, content, board, title);
+    scatterPolaroids(count, grid, narrow.matches).forEach((spot, i) => {
       polaroids[i].style.setProperty("--x", `${spot.x}%`);
       polaroids[i].style.setProperty("--y", `${spot.y}%`);
       polaroids[i].style.setProperty("--r", `${spot.r}deg`);
@@ -513,6 +517,12 @@ function fitAboutTitle() {
   const title = document.querySelector("#about-title");
   title.style.fontSize = "";
   if (window.matchMedia("(max-width: 760px)").matches) {
+    // Phones: the headline takes the section words' size, shrunk only if "APPROVE." would overflow.
+    title.style.fontSize = `${window.innerWidth * 0.26}px`;
+    title.style.width = "max-content";
+    const fit = document.querySelector(".about-copy").clientWidth / title.offsetWidth;
+    title.style.width = "";
+    if (fit < 1) title.style.fontSize = `${window.innerWidth * 0.26 * fit}px`;
     matchArtWord(title);
     return;
   }
@@ -531,11 +541,13 @@ function fitAboutTitle() {
 }
 
 // "MY ART" and "MY LIFE" use the same type size as the about headline, and "MY CODE" is rasterized at it.
+// On phones "MY CODE" shrinks to its column's full width instead.
 function matchArtWord(title) {
+  const narrow = window.matchMedia("(max-width: 760px)").matches;
   const size = getComputedStyle(title).fontSize;
   document.querySelector(".art-word").style.fontSize = size;
   document.querySelector(".life-title").style.fontSize = size;
-  codeWordSize = parseFloat(size);
+  codeWordSize = narrow ? window.innerWidth : parseFloat(size);
   rasterizeCodeWords();
 }
 

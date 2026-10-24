@@ -121,44 +121,69 @@ a { text-decoration: none; }
   background: #002452;
 }
 
-/* Masthead marks: hovering a mark slides its role and dates out to the right,
-   pushing the following marks along. */
+/* Masthead marks: hovering (or tapping) a mark opens a blurb with the company, role and dates,
+   always left-aligned above the row, and dims the other marks. A hovered mark wins over a focused one. */
+.company-marks {
+  position: relative;
+}
+
 .company-chip {
-  display: flex;
-  align-items: center;
+  display: block;
   outline: 0;
 }
 
 .company-chip .company-mark {
-  flex: none;
+  transition: opacity 200ms ease;
 }
 
 .company-chip__info {
+  position: absolute;
+  bottom: calc(100% + clamp(18px, 2vw, 30px));
+  left: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.45em;
-  max-width: 0;
-  overflow: hidden;
+  gap: 0.5em;
+  padding: 0.15em 0 0.15em 1em;
+  border-left: 1px solid rgb(var(--color-fg-rgb) / 0.6);
   white-space: nowrap;
-  opacity: 0;
   font-size: var(--font-size-page-label);
   line-height: 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  pointer-events: none;
   transition:
-    max-width 320ms cubic-bezier(0.22, 1, 0.36, 1),
-    padding 320ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 200ms ease;
+    opacity 200ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 200ms;
 }
 
 .company-chip:hover .company-chip__info,
-.company-chip:focus-visible .company-chip__info {
-  max-width: 24em;
-  padding: 0 clamp(4px, 0.6vw, 10px) 0 clamp(8px, 0.8vw, 12px);
+.company-marks:not(:has(.company-chip:hover)) .company-chip:focus .company-chip__info {
   opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 200ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.company-marks:has(.company-chip:hover) .company-chip:not(:hover) .company-mark,
+.company-marks:not(:has(.company-chip:hover)):has(.company-chip:focus) .company-chip:not(:focus) .company-mark {
+  opacity: 0.35;
+}
+
+.company-chip:focus-visible .company-mark {
+  outline: 1px solid rgb(var(--color-fg-rgb) / 0.86);
+  outline-offset: 3px;
+}
+
+.company-chip__company {
+  color: var(--color-fg);
 }
 
 .company-chip__role {
-  color: var(--color-fg);
+  color: rgb(var(--color-fg-rgb) / 0.8);
 }
 
 .company-chip__date {
@@ -170,7 +195,8 @@ a { text-decoration: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .company-chip__info {
+  .company-chip__info,
+  .company-chip .company-mark {
     transition: none;
   }
 }
@@ -1048,12 +1074,31 @@ a { text-decoration: none; }
     height: auto;
   }
 
+  /* Shorter than a full screen; the orbit tightens to fit (positions set in script.js). */
+  #art {
+    height: min(100dvh, 150vw);
+  }
+
+  .art-card img {
+    max-width: calc(17vw * var(--art-size));
+    max-height: calc(22vw * var(--art-size));
+  }
+
+  .art-portfolio {
+    font-size: var(--font-size-sm);
+  }
+
   #life {
-    height: calc(var(--life-rows, 13) * 26vw);
+    height: calc(var(--life-rows, 8) * 19vw);
   }
 
   .polaroid {
-    --polaroid-width: 22vw;
+    --polaroid-width: 18vw;
+  }
+
+  /* Phones show a subset of the board (count matches lifeMobileCount in script.js). */
+  .polaroid:nth-of-type(n + 31) {
+    display: none;
   }
 
 
@@ -1096,44 +1141,50 @@ a { text-decoration: none; }
     flex-basis: calc(50% - clamp(18px, 8vw, 44px));
   }
 
+  /* Same terminal as desktop, stacked: title, monitor, then one box per row.
+     The wrappers dissolve so their boxes can be reordered in a single column. */
   .dev-layout {
-    display: block;
-    justify-self: stretch;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
     height: auto;
     overflow: visible;
   }
 
+  .dev-text,
   .dev-info,
+  .dev-side,
+  .dev-copy {
+    display: contents;
+  }
+
   .dev-photo {
-    display: none;
+    order: 1;
+    align-self: stretch;
+    flex: none;
+    height: auto;
+    margin: 0 0 clamp(16px, 5vw, 28px);
   }
 
-  .dev-mobile-list {
-    display: grid;
-    gap: clamp(52px, 14vw, 76px);
+  .dev-monitor-frame {
+    width: 92%;
   }
 
-  .dev-project-copy {
-    font-size: var(--font-size-md);
-    line-height: 1.55;
+  .dev-layout .term-box {
+    margin-top: 0.2em;
   }
 
-  .dev-project-copy .dev-title {
-    margin-bottom: 14px;
-  }
+  .dev-side > .term-box:first-child { order: 2; }
+  .dev-box-about { order: 3; }
+  .dev-box-highlights { order: 4; }
+  .dev-box-links { order: 5; }
 
-  .dev-description {
-    margin-bottom: 20px;
-  }
-
-  .dev-points {
-    display: grid;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .dev-point {
-    margin: 0;
+  /* Boxes grow with their text instead of holding desktop's fixed sizes. */
+  .dev-box-about .term-box-body,
+  .dev-box-links .term-box-body,
+  .dev-box-highlights .term-box-body {
+    height: auto;
+    min-height: 1.45em;
   }
 }
 

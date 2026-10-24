@@ -517,6 +517,7 @@ export function companyMarksHTML() {
           <img src="${job.icon}" alt="${job.company}">
         </span>
         <span class="company-chip__info">
+          <span class="company-chip__company">${job.company}</span>
           <span class="company-chip__role">${job.position}</span>
           <span class="company-chip__date">${job.meta.split(" / ")[0]}</span>
         </span>
