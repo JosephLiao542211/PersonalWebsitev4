@@ -1,4 +1,5 @@
 import { inject } from "@vercel/analytics";
+import lifePhotoManifest from "./public/optimized/life-photos.json";
 
 inject();
 
@@ -34,14 +35,6 @@ const img = {
   artFigurePair: "/optimized/art-figure-pair-1024.webp",
   artThanos: "/optimized/art-thanos-1024.webp",
   artHandsPortrait: "/optimized/art-hands-portrait-1024.webp",
-  lifeStreet: "/optimized/portrait-1024.webp",
-  lifeTeam: "/optimized/life-wt-1024.webp",
-  lifeStudio: "/optimized/life-life-1024.webp",
-  lifeMic: "/optimized/life-mic-1024.webp",
-  lifeLife3: "/optimized/life-life3-1024.webp",
-  lifeDDQIC: "/optimized/life-ddqic-531.webp",
-  lifeBananda: "/optimized/life-bananda-1024.webp",
-  lifeBjj: "/optimized/life-bjj-259.webp",
   desert: "/optimized/image-9-1920.webp",
   mountain: "/optimized/landscape-1920.webp",
   workImage17: "/optimized/work-image-17-209.webp",
@@ -474,6 +467,74 @@ function orbitArt(rings, cards) {
   }).observe(orbit);
 }
 
+// Draw "MY CODE" in Djingo on a canvas, then resample its ink coverage into a grid of ASCII keys.
+// Faint edge cells stay blank so the gaps between letters read as clean whitespace.
+const asciiRamp = "-=+*#%@";
+const asciiThreshold = 0.5;
+
+let codeWordSize = 0;
+
+// dev() re-renders the section on every click, so the title is redrawn each time.
+function rasterizeCodeWords() {
+  if (codeWordSize) rasterizeCodeWord(document.querySelector(".code-word"), codeWordSize);
+}
+
+function rasterizeCodeWord(word, fontSize) {
+  const out = word.querySelector("span");
+  const text = "MY CODE";
+  const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+  const setFont = (size) => {
+    ctx.font = `${size}px Djingo`;
+    ctx.wordSpacing = `${size * -0.15}px`;
+  };
+
+  setFont(fontSize);
+  let m = ctx.measureText(text);
+  const inkWidth = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+  // Longer than "MY ART", so shrink when it would overflow its column.
+  if (inkWidth > word.clientWidth) {
+    fontSize *= word.clientWidth / inkWidth;
+    setFont(fontSize);
+    m = ctx.measureText(text);
+  }
+
+  const width = Math.ceil(m.actualBoundingBoxLeft + m.actualBoundingBoxRight);
+  const height = Math.ceil(m.actualBoundingBoxAscent + m.actualBoundingBoxDescent);
+  ctx.canvas.width = width;
+  ctx.canvas.height = height;
+  setFont(fontSize);
+  ctx.fillText(text, m.actualBoundingBoxLeft, m.actualBoundingBoxAscent);
+  const { data } = ctx.getImageData(0, 0, width, height);
+
+  // Monospace cells are roughly twice as tall as they are wide.
+  const cols = Math.round(width / Math.max(3, fontSize / 56));
+  const rows = Math.round(cols * (height / width) / 2);
+  const cellW = width / cols;
+  const cellH = height / rows;
+  const lines = [];
+  for (let row = 0; row < rows; row++) {
+    let line = "";
+    for (let col = 0; col < cols; col++) {
+      const x0 = Math.floor(col * cellW), x1 = Math.floor((col + 1) * cellW);
+      const y0 = Math.floor(row * cellH), y1 = Math.floor((row + 1) * cellH);
+      let ink = 0;
+      for (let y = y0; y < y1; y++) {
+        for (let x = x0; x < x1; x++) ink += data[(y * width + x) * 4 + 3];
+      }
+      const coverage = ink / (255 * (x1 - x0) * (y1 - y0));
+      line += coverage < asciiThreshold
+        ? " "
+        : asciiRamp[Math.round(((coverage - asciiThreshold) / (1 - asciiThreshold)) * (asciiRamp.length - 1))];
+    }
+    lines.push(line.trimEnd());
+  }
+
+  out.textContent = lines.join("\n");
+  // IBM Plex Mono advances 0.6em per glyph, so this makes the grid match the rasterized size exactly.
+  out.style.fontSize = `${cellW / 0.6}px`;
+  out.style.lineHeight = `${cellH}px`;
+}
+
 function dev(active = "local") {
   const content = sections.dev;
   const item = devItems[active] || devItems.local;
@@ -482,47 +543,52 @@ function dev(active = "local") {
     .join("");
   content.innerHTML = `
     <div class="dev-layout">
-      <div class="dev-menu">
-        <button class="${active === "local" ? "active" : ""}" type="button" data-dev="local">&gt;Local Reach</button>
-        <button class="${active === "scenariogpt" ? "active" : ""}" type="button" data-dev="scenariogpt">&gt;ScenarioGPT</button>
-        <button class="${active === "baobab" ? "active" : ""}" type="button" data-dev="baobab">&gt;BaoBab</button>
-        <button class="${active === "fight" ? "active" : ""}" type="button" data-dev="fight">&gt;Fight Labs</button>
-        <button class="${active === "stumble" ? "active" : ""}" type="button" data-dev="stumble">&gt;Stumble</button>
-        <button class="${active === "better" ? "active" : ""}" type="button" data-dev="better">&gt;Better</button>
-        <button class="${active === "journal" ? "active" : ""}" type="button" data-dev="journal">&gt;Dear Journal</button>
-        <button class="${active === "cats" ? "active" : ""}" type="button" data-dev="cats">&gt;Cat's Cradle</button>
-        <button class="${active === "jaja" ? "active" : ""}" type="button" data-dev="jaja">&gt;JAJA <span>coming soon</span></button>
-        <button class="${active === "jajaLabs" ? "active" : ""}" type="button" data-dev="jajaLabs">&gt;JAJA Labs <span>coming soon</span></button>
-      </div>
-      <div class="dev-copy">
-        ${
-          item.status
-            ? `
-          <div class="coming-soon-copy">
-            <p class="dev-status">${item.status}</p>
-            <h2 class="dev-title">${item.title}</h2>
-            <p>${item.comingSoonText}</p>
-            <div class="dev-links" aria-label="Related links">
-              ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
-            </div>
+      <div class="dev-text">
+        <h2 class="code-word" aria-label="MY CODE"><span aria-hidden="true"></span></h2>
+        <div class="dev-info">
+          <div class="dev-menu">
+            <button class="${active === "local" ? "active" : ""}" type="button" data-dev="local">&gt;Local Reach</button>
+            <button class="${active === "scenariogpt" ? "active" : ""}" type="button" data-dev="scenariogpt">&gt;ScenarioGPT</button>
+            <button class="${active === "baobab" ? "active" : ""}" type="button" data-dev="baobab">&gt;BaoBab</button>
+            <button class="${active === "fight" ? "active" : ""}" type="button" data-dev="fight">&gt;Fight Labs</button>
+            <button class="${active === "stumble" ? "active" : ""}" type="button" data-dev="stumble">&gt;Stumble</button>
+            <button class="${active === "better" ? "active" : ""}" type="button" data-dev="better">&gt;Better</button>
+            <button class="${active === "journal" ? "active" : ""}" type="button" data-dev="journal">&gt;Dear Journal</button>
+            <button class="${active === "cats" ? "active" : ""}" type="button" data-dev="cats">&gt;Cat's Cradle</button>
+            <button class="${active === "jaja" ? "active" : ""}" type="button" data-dev="jaja">&gt;JAJA <span>coming soon</span></button>
+            <button class="${active === "jajaLabs" ? "active" : ""}" type="button" data-dev="jajaLabs">&gt;JAJA Labs <span>coming soon</span></button>
           </div>
-        `
-            : `
-          <h2 class="dev-title">${item.title}</h2>
-          <p>${item.text}</p>
-          <p>${item.details.map((detail) => `&gt; ${detail}`).join("<br>")}</p>
-          ${
-            item.links
-              ? `
-            <div class="dev-links" aria-label="Related links">
-              ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
-            </div>
-          `
-              : ""
-          }
-          <p>learn more</p>
-        `
-        }
+          <div class="dev-copy">
+            ${
+              item.status
+                ? `
+              <div class="coming-soon-copy">
+                <p class="dev-status">${item.status}</p>
+                <h2 class="dev-title">${item.title}</h2>
+                <p>${item.comingSoonText}</p>
+                <div class="dev-links" aria-label="Related links">
+                  ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
+                </div>
+              </div>
+            `
+                : `
+              <h2 class="dev-title">${item.title}</h2>
+              <p>${item.text}</p>
+              <p>${item.details.map((detail) => `&gt; ${detail}`).join("<br>")}</p>
+              ${
+                item.links
+                  ? `
+                <div class="dev-links" aria-label="Related links">
+                  ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
+                </div>
+              `
+                  : ""
+              }
+              <p>learn more</p>
+            `
+            }
+          </div>
+        </div>
       </div>
       <figure class="dev-photo dev-monitor">
         <div class="dev-monitor-frame">
@@ -540,6 +606,7 @@ function dev(active = "local") {
     button.addEventListener("click", () => dev(button.dataset.dev));
   });
   fitMonitorScreen();
+  rasterizeCodeWords();
 }
 
 // Screen corners as fractions of the monitor image's width/height: TL, TR, BR, BL.
@@ -621,70 +688,88 @@ function fitMonitorScreen() {
 
 window.addEventListener("resize", fitMonitorScreen);
 
-const lifeTiles = [
-  { type: "image", src: img.lifeTeam, className: "life-tile--team" },
-  {
-    type: "image",
-    src: img.lifeStreet,
-    className: "life-tile--street life-photo--tall",
-  },
-  { type: "image", src: img.lifeStudio, className: "life-tile--studio" },
-  {
-    type: "text",
-    className: "life-tile--note-a",
-    kicker: "training",
-    text: "wrestling rooms, late buses, and the useful kind of tired.",
-  },
-  { type: "image", src: img.lifeMic, className: "life-tile--mic" },
-  {
-    type: "image",
-    src: img.lifeBjj,
-    className: "life-tile--bjj life-photo--tall",
-  },
-  {
-    type: "text",
-    className: "life-tile--note-b",
-    kicker: "people",
-    text: "small teams, sharper friends, shared projects, loud dinners.",
-  },
-  { type: "image", src: img.lifeLife3, className: "life-tile--life3" },
-  { type: "image", src: img.lifeDDQIC, className: "life-tile--ddqic" },
-  {
-    type: "text",
-    className: "life-tile--note-c",
-    kicker: "between",
-    text: "a few strange costumes, a lot of motion, always another story.",
-  },
-  { type: "image", src: img.lifeBananda, className: "life-tile--bananda" },
-  {
-    type: "text",
-    className: "life-tile--note-d",
-    kicker: "home",
-    text: "built from the parts that do not fit inside one lane.",
-  },
-];
+// Seeded so the scatter is identical on every visit.
+function seededRandom(seed) {
+  return () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+}
+
+// Fixed shuffle so the photo sets mix across the board the same way every visit.
+const lifePhotos = (() => {
+  const photos = [...lifePhotoManifest];
+  const random = seededRandom(11);
+  for (let i = photos.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [photos[i], photos[j]] = [photos[j], photos[i]];
+  }
+  return photos;
+})();
+
+// Horizontal inset (%) so edge polaroids aren't clipped by the viewport.
+const lifeInset = (narrow) => (narrow ? 11 : 4);
+
+// Picks the fewest rows that fit every photo once the cells under the title
+// (plus roughly half a polaroid of margin) are left empty. Rows set the
+// section's height through --life-rows, so each try is measured for real.
+function lifeGrid(count, narrow, section, board, title) {
+  const cols = narrow ? 5 : 12;
+  const inset = lifeInset(narrow);
+  for (let rows = 4; ; rows++) {
+    section.style.setProperty("--life-rows", rows);
+    const { clientWidth: width, clientHeight: height } = board;
+    const cellWidth = (width * (100 - inset * 2)) / 100 / cols;
+    const cellHeight = height / rows;
+    const clearX = title.offsetWidth / 2 + cellWidth * 0.6;
+    const clearY = title.offsetHeight / 2 + cellHeight * 0.6;
+    const isTitleCell = (col, row) =>
+      Math.abs((width * inset) / 100 + (col + 0.5) * cellWidth - width / 2) < clearX &&
+      Math.abs((row + 0.5) * cellHeight - height / 2) < clearY;
+
+    let free = 0;
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        if (!isTitleCell(col, row)) free++;
+      }
+    }
+    if (free >= count) return { cols, rows, isTitleCell };
+  }
+}
+
+// Jittered grid with the title's cells left empty, so polaroids ring the heading.
+function scatterPolaroids(count, { cols, rows, isTitleCell }, narrow) {
+  const random = seededRandom(narrow ? 7 : 42);
+
+  const cells = [];
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (!isTitleCell(col, row)) cells.push({ col, row });
+    }
+  }
+
+  return Array.from({ length: count }, (_, i) => {
+    const { col, row } = cells[Math.floor((i * cells.length) / count)];
+    const jitter = () => (random() - 0.5) * 0.55;
+    const inset = lifeInset(narrow);
+    return {
+      x: inset + ((col + 0.5 + jitter()) / cols) * (100 - inset * 2),
+      y: ((row + 0.5 + jitter()) / rows) * 100,
+      r: (random() - 0.5) * 24,
+    };
+  });
+}
 
 function life() {
   const content = sections.life;
   content.innerHTML = `
-    <div class="life-layout" aria-label="Life photo mosaic">
-      ${lifeTiles
-        .map((tile) => {
-          if (tile.type === "text") {
-            return `
-            <article class="life-note ${tile.className}">
-              <span>${tile.kicker}</span>
-              <p>${tile.text}</p>
-            </article>
-          `;
-          }
-
-          return `
-          <button class="life-photo ${tile.className}" type="button" data-life-image="${tile.src}" aria-label="Open life photo">
-            <img src="${tile.src}" alt="Life photo by Joseph Liao" loading="lazy" decoding="async">
+    <div class="life-board" aria-label="Life photos">
+      <h2 class="life-title">MY LIFE</h2>
+      ${lifePhotos
+        .map(
+          (photo, i) => `
+          <button class="polaroid" type="button" style="--i: ${i}" data-life-image="${photo.full}" aria-label="Open life photo">
+            <img src="${photo.thumb}" alt="Life photo by Joseph Liao" loading="lazy" decoding="async">
           </button>
-        `;
-        })
+        `,
+        )
         .join("")}
     </div>
     <div class="life-lightbox" hidden>
@@ -693,6 +778,32 @@ function life() {
     </div>
   `;
 
+  const board = content.querySelector(".life-board");
+  const polaroids = board.querySelectorAll(".polaroid");
+  const title = board.querySelector(".life-title");
+  const narrow = window.matchMedia("(max-width: 760px)");
+  const layoutPolaroids = () => {
+    const grid = lifeGrid(polaroids.length, narrow.matches, content, board, title);
+    scatterPolaroids(polaroids.length, grid, narrow.matches).forEach((spot, i) => {
+      polaroids[i].style.setProperty("--x", `${spot.x}%`);
+      polaroids[i].style.setProperty("--y", `${spot.y}%`);
+      polaroids[i].style.setProperty("--r", `${spot.r}deg`);
+    });
+  };
+  layoutPolaroids();
+  narrow.addEventListener("change", layoutPolaroids);
+  // The title is resized to match "MY ART" once fonts load and on resize.
+  new ResizeObserver(layoutPolaroids).observe(title);
+
+  new IntersectionObserver(
+    (entries, observer) => {
+      if (!entries[0].isIntersecting) return;
+      board.classList.add("is-in-view");
+      observer.disconnect();
+    },
+    { threshold: 0.2 },
+  ).observe(board);
+
   const lightbox = content.querySelector(".life-lightbox");
   const lightboxImage = lightbox.querySelector("img");
   const closeLightbox = () => {
@@ -700,7 +811,7 @@ function life() {
     lightboxImage.removeAttribute("src");
   };
 
-  content.querySelector(".life-layout").addEventListener("click", (event) => {
+  board.addEventListener("click", (event) => {
     const photo = event.target.closest("[data-life-image]");
     if (!photo) return;
     lightboxImage.src = photo.dataset.lifeImage;
@@ -793,9 +904,13 @@ function fitAboutTitle() {
   matchArtWord(title);
 }
 
-// "MY ART" uses the same type size as the about headline.
+// "MY ART" and "MY LIFE" use the same type size as the about headline, and "MY CODE" is rasterized at it.
 function matchArtWord(title) {
-  document.querySelector(".art-word").style.fontSize = getComputedStyle(title).fontSize;
+  const size = getComputedStyle(title).fontSize;
+  document.querySelector(".art-word").style.fontSize = size;
+  document.querySelector(".life-title").style.fontSize = size;
+  codeWordSize = parseFloat(size);
+  rasterizeCodeWords();
 }
 
 fitAboutTitle();

@@ -16,7 +16,9 @@ async function findImages(dir: string): Promise<string[]> {
     entries.map(async (entry) => {
       const path = join(dir, entry.name);
       if (entry.isDirectory()) {
-        if (relative(SRC, path).split(/[\\/]/)[0] === "optimized") return [];
+        // life/ photos are built by optimize-life.sh.
+        const top = relative(SRC, path).split(/[\\/]/)[0];
+        if (top === "optimized" || top === "life") return [];
         return findImages(path);
       }
       if (/\.(jpe?g|png|webp)$/i.test(entry.name)) return [path];
