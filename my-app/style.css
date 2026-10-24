@@ -1160,6 +1160,7 @@ h1 {
   .dev-point {
     margin: 0;
   }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .art-card img,
@@ -1170,5 +1171,101 @@ h1 {
   .life-board .polaroid {
     opacity: 1;
     animation: none;
+  }
+}
+
+/* Footer: a dark slab at the foot of the light panel, bleeding past its padding,
+   with the email set in display type across the full width. */
+.site-footer {
+  --color-bg-rgb: 18 18 19;
+  --color-fg-rgb: 240 240 238;
+  --color-bg: rgb(var(--color-bg-rgb));
+  --color-fg: rgb(var(--color-fg-rgb));
+  --footer-pad-bottom: clamp(48px, 6vw, 96px);
+  margin: clamp(88px, 12vw, 180px) calc(var(--frame-pad-x) * -1) calc(var(--footer-pad-bottom) * -1);
+  padding: clamp(56px, 8vw, 128px) var(--frame-pad-x) var(--frame-pad-bottom);
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.site-footer__label {
+  margin: 0 0 clamp(14px, 1.6vw, 24px);
+  font-size: var(--font-size-page-label);
+  line-height: 1;
+  color: rgb(var(--color-fg-rgb) / 0.6);
+}
+
+.site-footer__email {
+  position: relative;
+  display: block;
+  width: max-content;
+  font-family: "Djingo", sans-serif;
+  font-size: 8vw;
+  line-height: 0.8;
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+  outline: 0;
+}
+
+/* Underline that wipes in from the left on hover. */
+.site-footer__email::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.08em;
+  height: max(2px, 0.03em);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-footer__email:hover::after,
+.site-footer__email:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.site-footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px clamp(24px, 3vw, 48px);
+  margin-top: clamp(40px, 5vw, 80px);
+  padding-top: clamp(14px, 1.6vw, 24px);
+  border-top: 1px solid rgb(var(--color-fg-rgb) / 0.16);
+  font-size: var(--font-size-page-label);
+  line-height: 1;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px clamp(12px, 1.4vw, 22px);
+}
+
+.site-footer__links a {
+  color: rgb(var(--color-fg-rgb) / 0.6);
+}
+
+.site-footer__links a span {
+  color: rgb(var(--color-fg-rgb) / 0.35);
+}
+
+.site-footer__links a:hover,
+.site-footer__links a:focus-visible {
+  color: var(--color-fg);
+  outline: 0;
+}
+
+.site-footer__meta {
+  margin: 0;
+  color: rgb(var(--color-fg-rgb) / 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__email::after {
+    transition: none;
   }
 }

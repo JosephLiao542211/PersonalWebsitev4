@@ -944,21 +944,26 @@ function renderCompanyMarks() {
 
 renderCompanyMarks();
 
-// Scale the name so it spans the full masthead width at the font's natural proportions.
-function fitName() {
-  const name = document.querySelector(".name-mark");
-  name.style.fontSize = "100px";
-  const box = getComputedStyle(name.parentElement);
+// Scale a line of display type so it spans its parent's full width at the font's natural proportions.
+function fitToWidth(el) {
+  el.style.fontSize = "100px";
+  const box = getComputedStyle(el.parentElement);
   const width =
-    name.parentElement.clientWidth -
+    el.parentElement.clientWidth -
     parseFloat(box.paddingLeft) -
     parseFloat(box.paddingRight);
-  name.style.fontSize = `${(100 * width) / name.scrollWidth}px`;
+  el.style.fontSize = `${(100 * width) / el.scrollWidth}px`;
 }
 
-fitName();
-document.fonts.ready.then(fitName);
-window.addEventListener("resize", fitName);
+// The masthead name and the footer email both run edge to edge.
+function fitDisplayType() {
+  fitToWidth(document.querySelector(".name-mark"));
+  fitToWidth(document.querySelector(".site-footer__email"));
+}
+
+fitDisplayType();
+document.fonts.ready.then(fitDisplayType);
+window.addEventListener("resize", fitDisplayType);
 
 landing();
 art();

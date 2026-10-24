@@ -3,6 +3,7 @@ import { file } from "bun";
 const STATIC: Record<string, { path: string; immutable?: boolean }> = {
   "/": { path: "index.html" },
   "/portfolio": { path: "portfolio.html" },
+  "/blog": { path: "blog.html" },
   "/robots.txt": { path: "robots.txt" },
   "/sitemap.xml": { path: "sitemap.xml" },
   "/llms.txt": { path: "llms.txt" },
