@@ -147,6 +147,60 @@ h1 {
   background: #002452;
 }
 
+/* Masthead marks: hovering a mark slides its role and dates out to the right,
+   pushing the following marks along. */
+.company-chip {
+  display: flex;
+  align-items: center;
+  outline: 0;
+}
+
+.company-chip .company-mark {
+  flex: none;
+}
+
+.company-chip__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.45em;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  font-size: var(--font-size-page-label);
+  line-height: 1;
+  transition:
+    max-width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease;
+}
+
+.company-chip:hover .company-chip__info,
+.company-chip:focus-visible .company-chip__info {
+  max-width: 24em;
+  padding: 0 clamp(4px, 0.6vw, 10px) 0 clamp(8px, 0.8vw, 12px);
+  opacity: 1;
+}
+
+.company-chip__role {
+  color: var(--color-fg);
+}
+
+.company-chip__date {
+  color: rgb(var(--color-fg-rgb) / 0.6);
+}
+
+.company-chip__date:empty {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .company-chip__info {
+    transition: none;
+  }
+}
+
 .company-mark--crest img {
   padding: 14%;
   object-fit: contain;
@@ -222,7 +276,8 @@ h1 {
 }
 
 #dev {
-  --section-height: max(460px, 78dvh);
+  /* --dev-fit is set by fitDevSection when the terminal boxes need more room than 78dvh. */
+  --section-height: max(460px, 78dvh, var(--dev-fit, 0px));
 }
 
 #life {
@@ -513,8 +568,7 @@ h1 {
 }
 
 /* Same size as the about paragraph on the landing page. */
-.dev-menu,
-.dev-copy {
+.dev-info {
   font-size: var(--font-size-md);
   line-height: 1.45;
 }
@@ -543,23 +597,136 @@ h1 {
   flex: 1;
   min-height: 0;
   display: flex;
-  gap: clamp(26px, 4vw, 64px);
-  align-items: flex-start;
+  gap: 2ch;
+  align-items: stretch;
   overflow: hidden;
+}
+
+/* Terminal panels: every glyph in the dev panel shares one font and size, like a TUI. */
+.term-box {
+  min-width: 0;
+}
+
+.term-box + .term-box {
+  margin-top: 0.2em;
+}
+
+.term-box-edge {
+  display: flex;
+  line-height: 1.2;
+  white-space: pre;
+  color: rgb(var(--color-fg-rgb) / 0.42);
+}
+
+.term-box-label {
+  margin: 0 0.6ch 0 0;
+  display: inline;
+  font: inherit;
+  color: var(--color-fg);
+  white-space: nowrap;
+}
+
+.term-box-label::before {
+  content: "[";
+  color: rgb(var(--color-fg-rgb) / 0.42);
+}
+
+.term-box-label::after {
+  content: "]";
+  color: rgb(var(--color-fg-rgb) / 0.42);
+}
+
+/* The rule text is absolutely positioned so it never sets the box width; it only fills what's left. */
+.term-box-rule {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 1ch;
+  height: 1.2em;
+  overflow: hidden;
+}
+
+.term-box-rule > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.term-box-body {
+  position: relative;
+  padding: 0.15em 2ch;
+}
+
+.term-box-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1ch;
+  overflow: hidden;
+  /* One bar per text row, so the gaps read as characters rather than a drawn line. */
+  padding-top: 0.15em;
+  white-space: pre;
+  color: rgb(var(--color-fg-rgb) / 0.42);
+}
+
+.term-box-side:last-child {
+  left: auto;
+  right: 0;
+}
+
+/* Left column: project list on top, related links underneath. */
+.dev-side {
+  flex: 0 0 32ch;
+  width: 32ch;
+}
+
+/* Fixed box sizes so switching projects never resizes the layout; sized for the longest entry (Local Reach). */
+.dev-box-about .term-box-body {
+  height: calc(7 * 1.45em + 0.3em);
+  overflow: hidden;
+}
+
+/* The last box in each column stretches to the bottom of the panel, never below its minimum. */
+.dev-side,
+.dev-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.dev-box-links,
+.dev-box-highlights {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dev-box-links .term-box-body,
+.dev-box-highlights .term-box-body {
+  flex: 1;
+  overflow: hidden;
+}
+
+.dev-box-links .term-box-body {
+  min-height: calc(4 * 1.45em + 0.3em);
+}
+
+.dev-box-highlights .term-box-body {
+  min-height: calc(7 * 1.45em + 0.3em);
 }
 
 .dev-menu {
   display: grid;
   gap: 2px;
-  flex: 0 0 clamp(120px, 14vw, 180px);
-  justify-self: start;
 }
 
 .dev-menu button {
   width: max-content;
   border: 0;
-  padding: 0;
+  padding: 0 0.5ch;
+  margin: 0 -0.5ch;
   background: transparent;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   text-align: left;
 }
@@ -567,29 +734,18 @@ h1 {
 .dev-menu span,
 .dev-status {
   color: rgb(var(--color-fg-rgb) / 0.54);
-  font-size: var(--font-size-page-copy);
 }
 
-.dev-status {
-  margin: 0 0 clamp(10px, 1vw, 14px);
-  line-height: 1;
-  text-transform: uppercase;
+/* Selected row reads like a highlighted line in a terminal list. */
+.dev-menu button.active {
+  background: var(--color-fg);
+  color: var(--color-bg);
 }
 
-.coming-soon-copy {
-  max-width: 34ch;
+.dev-menu button.active span {
+  color: rgb(var(--color-bg-rgb) / 0.7);
 }
 
-.coming-soon-copy .dev-title {
-  margin-bottom: clamp(12px, 1.2vw, 18px);
-}
-
-.coming-soon-copy p:not(.dev-status) {
-  color: rgb(var(--color-fg-rgb) / 0.76);
-  line-height: 1.55;
-}
-
-.dev-menu button.active,
 .dev-menu button:hover,
 .dev-menu button:focus-visible {
   text-decoration: underline;
@@ -597,7 +753,24 @@ h1 {
 }
 
 .dev-copy {
-  flex: 1 1 auto;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.dev-copy p {
+  margin: 0 0 0.5em;
+}
+
+.term-box-body > :nth-last-child(2) {
+  margin-bottom: 0;
+}
+
+/* Mobile cards keep their own type scale. */
+.dev-mobile-list .dev-status {
+  margin: 0 0 clamp(10px, 1vw, 14px);
+  font-size: var(--font-size-page-copy);
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .dev-title {
@@ -607,27 +780,28 @@ h1 {
   line-height: 1;
 }
 
-.dev-copy p {
-  margin: 0 0 clamp(12px, 1.5vw, 22px);
-}
-
-.dev-copy p:last-child {
-  margin-bottom: 0;
-}
-
 .dev-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px clamp(10px, 1vw, 14px);
-  margin: 0 0 clamp(12px, 1.5vw, 22px);
+  gap: 0 2ch;
+  margin: 0 0 0.5em;
+}
+
+.dev-copy .dev-links,
+.dev-side .dev-links {
+  margin: 0;
 }
 
 .dev-links a {
   color: rgb(var(--color-fg-rgb) / 0.78);
   font-size: var(--font-size-md);
-  line-height: 1;
   text-decoration: underline;
   text-underline-offset: 0.22em;
+}
+
+.dev-copy .dev-links a {
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .dev-links a:hover,

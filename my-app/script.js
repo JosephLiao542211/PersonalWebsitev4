@@ -515,6 +515,8 @@ let codeWordSize = 0;
 // dev() re-renders the section on every click, so the title is redrawn each time.
 function rasterizeCodeWords() {
   if (codeWordSize) rasterizeCodeWord(document.querySelector(".code-word"), codeWordSize);
+  // The title's height sets how much room the terminal boxes get.
+  fitDevSection();
 }
 
 function rasterizeCodeWord(word, fontSize) {
@@ -573,6 +575,28 @@ function rasterizeCodeWord(word, fontSize) {
   out.style.lineHeight = `${cellH}px`;
 }
 
+// Terminal-style frame drawn with plain ASCII (+ - |); the rules stretch to fit via CSS overflow.
+const boxRule = "-".repeat(400);
+const boxSide = "|\n".repeat(200);
+
+function termBox(label, body, className = "", footer = "") {
+  return `
+    <section class="term-box ${className}">
+      <div class="term-box-edge"><span aria-hidden="true">+-</span><h3 class="term-box-label">${label}</h3><span class="term-box-rule" aria-hidden="true"><span>${boxRule}</span></span><span aria-hidden="true">+</span></div>
+      <div class="term-box-body">
+        <span class="term-box-side" aria-hidden="true">${boxSide}</span>
+        ${body}
+        <span class="term-box-side" aria-hidden="true">${boxSide}</span>
+      </div>
+      <div class="term-box-edge"><span aria-hidden="true">+${footer ? "-" : ""}</span>${footer ? `<span class="term-box-label">${footer}</span>` : ""}<span class="term-box-rule" aria-hidden="true"><span>${boxRule}</span></span><span aria-hidden="true">+</span></div>
+    </section>
+  `;
+}
+
+function renderDevLinks(links) {
+  return `<div class="dev-links" aria-label="Related links">${links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}</div>`;
+}
+
 function dev(active = "local") {
   const content = sections.dev;
   const item = devItems[active] || devItems.local;
@@ -584,47 +608,35 @@ function dev(active = "local") {
       <div class="dev-text">
         <h2 class="code-word" aria-label="MY CODE"><span aria-hidden="true"></span></h2>
         <div class="dev-info">
-          <div class="dev-menu">
-            <button class="${active === "local" ? "active" : ""}" type="button" data-dev="local">&gt;Local Reach</button>
-            <button class="${active === "scenariogpt" ? "active" : ""}" type="button" data-dev="scenariogpt">&gt;ScenarioGPT</button>
-            <button class="${active === "baobab" ? "active" : ""}" type="button" data-dev="baobab">&gt;BaoBab</button>
-            <button class="${active === "fight" ? "active" : ""}" type="button" data-dev="fight">&gt;Fight Labs</button>
-            <button class="${active === "stumble" ? "active" : ""}" type="button" data-dev="stumble">&gt;Stumble</button>
-            <button class="${active === "better" ? "active" : ""}" type="button" data-dev="better">&gt;Better</button>
-            <button class="${active === "journal" ? "active" : ""}" type="button" data-dev="journal">&gt;Dear Journal</button>
-            <button class="${active === "cats" ? "active" : ""}" type="button" data-dev="cats">&gt;Cat's Cradle</button>
-            <button class="${active === "jaja" ? "active" : ""}" type="button" data-dev="jaja">&gt;JAJA <span>coming soon</span></button>
-            <button class="${active === "jajaLabs" ? "active" : ""}" type="button" data-dev="jajaLabs">&gt;JAJA Labs <span>coming soon</span></button>
+          <div class="dev-side">
+            ${termBox(
+              "projects",
+              `<nav class="dev-menu" aria-label="Projects">
+                ${devOrder
+                  .map(
+                    (key) =>
+                      `<button class="${active === key ? "active" : ""}" type="button" data-dev="${key}">&gt;${devItems[key].title}${devItems[key].status ? ` <span>${devItems[key].status}</span>` : ""}</button>`,
+                  )
+                  .join("")}
+              </nav>`,
+            )}
+            ${termBox(
+              "links",
+              item.links ? renderDevLinks(item.links) : "",
+              "dev-box-links",
+            )}
           </div>
           <div class="dev-copy">
             ${
               item.status
-                ? `
-              <div class="coming-soon-copy">
-                <p class="dev-status">${item.status}</p>
-                <h2 class="dev-title">${item.title}</h2>
-                <p>${item.comingSoonText}</p>
-                <div class="dev-links" aria-label="Related links">
-                  ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
-                </div>
-              </div>
-            `
-                : `
-              <h2 class="dev-title">${item.title}</h2>
-              <p>${item.text}</p>
-              <p>${item.details.map((detail) => `&gt; ${detail}`).join("<br>")}</p>
-              ${
-                item.links
-                  ? `
-                <div class="dev-links" aria-label="Related links">
-                  ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
-                </div>
-              `
-                  : ""
-              }
-              <p>learn more</p>
-            `
+                ? termBox(`${item.title} <span class="dev-status">${item.status}</span>`, `<p>${item.comingSoonText}</p>`, "dev-box-about")
+                : termBox(item.title, `<p>${item.text}</p>`, "dev-box-about")
             }
+            ${termBox(
+              "highlights",
+              item.status ? "" : `<p>${item.details.map((detail) => `&gt; ${detail}`).join("<br>")}</p>`,
+              "dev-box-highlights",
+            )}
           </div>
         </div>
       </div>
@@ -643,8 +655,17 @@ function dev(active = "local") {
   content.querySelectorAll("[data-dev]").forEach((button) => {
     button.addEventListener("click", () => dev(button.dataset.dev));
   });
-  fitMonitorScreen();
   rasterizeCodeWords();
+}
+
+// Grows the section when a short window would clip the terminal boxes, then refits the monitor to the new height.
+function fitDevSection() {
+  const section = sections.dev;
+  section.style.removeProperty("--dev-fit");
+  const columns = section.querySelectorAll(".dev-side, .dev-copy");
+  const overflow = Math.max(0, ...[...columns].map((column) => column.scrollHeight - column.clientHeight));
+  if (overflow > 0) section.style.setProperty("--dev-fit", `${section.offsetHeight + overflow}px`);
+  fitMonitorScreen();
 }
 
 // Screen corners as fractions of the monitor image's width/height: TL, TR, BR, BL.
@@ -724,7 +745,7 @@ function fitMonitorScreen() {
   ].join(",")})`;
 }
 
-window.addEventListener("resize", fitMonitorScreen);
+window.addEventListener("resize", fitDevSection);
 
 // Seeded so the scatter is identical on every visit.
 function seededRandom(seed) {
@@ -895,7 +916,9 @@ function scrollToSection(section, behavior = "smooth") {
 
 
 // Shown in the masthead only; not yet listed under professional experience.
-const upcoming = [{ icon: img.workWealthsimple, company: "Wealthsimple" }];
+const upcoming = [
+  { icon: img.workWealthsimple, company: "Wealthsimple", position: "Incoming Software Engineer Intern", meta: "Jan 2027 - Apr 2027" },
+];
 
 function renderCompanyMarks() {
   const recentFirst = [...jobs].sort((a, b) => b.start.localeCompare(a.start));
@@ -905,8 +928,14 @@ function renderCompanyMarks() {
   ]
     .map(
       (job) => `
-      <span class="company-mark" title="${job.company}">
-        <img src="${job.icon}" alt="${job.company}">
+      <span class="company-chip" tabindex="0">
+        <span class="company-mark">
+          <img src="${job.icon}" alt="${job.company}">
+        </span>
+        <span class="company-chip__info">
+          <span class="company-chip__role">${job.position}</span>
+          <span class="company-chip__date">${job.meta.split(" / ")[0]}</span>
+        </span>
       </span>
     `,
     )
