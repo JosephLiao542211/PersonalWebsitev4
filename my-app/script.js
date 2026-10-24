@@ -29,6 +29,11 @@ const img = {
   artImg1223B: "/optimized/art-img-1223-2-1024.webp",
   artImg1233: "/optimized/art-img-1233-1-1024.webp",
   artImg1234: "/optimized/art-img-1234-1-1024.webp",
+  artPortraitSketch: "/optimized/art-portrait-sketch-1024.webp",
+  artFigureStool: "/optimized/art-figure-stool-1024.webp",
+  artFigurePair: "/optimized/art-figure-pair-1024.webp",
+  artThanos: "/optimized/art-thanos-1024.webp",
+  artHandsPortrait: "/optimized/art-hands-portrait-1024.webp",
   lifeStreet: "/optimized/portrait-1024.webp",
   lifeTeam: "/optimized/life-wt-1024.webp",
   lifeStudio: "/optimized/life-life-1024.webp",
@@ -45,6 +50,8 @@ const img = {
   workRectangle13: "/optimized/work-rectangle-13-205.webp",
   workSoti: "/public/work/image.png",
   workWealthsimple: "/optimized/work-wealthsimple-447.webp",
+  queensCrest: "/optimized/about-queens-960.webp",
+  canadaFlag: "/optimized/about-canada-500.webp",
   portrait: "/optimized/life-img-1882-1024.webp",
   comingSoon: "/public/coming-soon.png",
   devLocalReach: "/optimized/dev-localreach-1024.webp",
@@ -54,6 +61,7 @@ const img = {
   devCatsCradle: "/optimized/dev-cats-cradle-1024.webp",
   devBaoBab: "/public/dev/Baobab.svg",
   devBetter: "/optimized/dev-better-1024.webp",
+  devMonitor: "/optimized/dev-monitor-1600.webp",
 };
 
 const jobs = [
@@ -85,7 +93,6 @@ const jobs = [
     position: "Co-founder",
     meta: "Jan 2024 - Jan 2025 / Acquired by Taiv / Kingston, Ontario",
   },
- 
 ];
 
 const devItems = {
@@ -98,10 +105,16 @@ const devItems = {
       "Used TensorFlow logo detection, OpenCV colour variance, Raspberry Pi hardware, and IR control to detect commercial breaks and switch inputs",
     ],
     links: [
-      ["Betakit", "https://betakit.com/taiv-acquihires-fellow-canadian-adtech-startup-local-reach-to-aid-expansion-plans/"],
+      [
+        "Betakit",
+        "https://betakit.com/taiv-acquihires-fellow-canadian-adtech-startup-local-reach-to-aid-expansion-plans/",
+      ],
       ["Local Reach", "https://www.thelocalreach.ca/"],
       ["The Forge", "https://theforge.mcmaster.ca/startups/local-reach/"],
-      ["Queen's Gazette", "https://www.queensu.ca/gazette/stories/pitch-competition-celebrates-innovation-and-entrepreneurship-0"],
+      [
+        "Queen's Gazette",
+        "https://www.queensu.ca/gazette/stories/pitch-competition-celebrates-innovation-and-entrepreneurship-0",
+      ],
       ["Pilot House Demo", "https://youtu.be/yGFYpenWrVo"],
       ["Brass Pub Demo", "https://youtu.be/dBMbcPxOehA"],
       ["Tommy's Demo", "https://youtu.be/AOXebwhuOH8"],
@@ -116,9 +129,7 @@ const devItems = {
       "Translated defense, aviation, and stakeholder requirements into product flows",
       "Designed 10+ high-fidelity Figma mockups before implementing production UI",
     ],
-    links: [
-      ["GitHub", "https://github.com/JosephLiao542211"],
-    ],
+    links: [["GitHub", "https://github.com/JosephLiao542211"]],
     image: img.workImage19,
   },
   baobab: {
@@ -130,8 +141,14 @@ const devItems = {
       "Featured by Kingstonist and the Queen's Gazette for student innovation impact",
     ],
     links: [
-      ["Kingstonist", "https://www.kingstonist.com/news/winners-of-the-2024-mayors-innovation-challenge-announced/"],
-      ["Queen's Gazette", "https://www.queensu.ca/gazette/stories/students-recognized-city-kingston-impactful-innovations"],
+      [
+        "Kingstonist",
+        "https://www.kingstonist.com/news/winners-of-the-2024-mayors-innovation-challenge-announced/",
+      ],
+      [
+        "Queen's Gazette",
+        "https://www.queensu.ca/gazette/stories/students-recognized-city-kingston-impactful-innovations",
+      ],
     ],
     image: img.devBaoBab,
   },
@@ -172,7 +189,10 @@ const devItems = {
     ],
     links: [
       ["GitHub", "https://github.com/JosephLiao542211/Better-HawkHack2024"],
-      ["Taikai", "https://taikai.network/hackbox/hackathons/hawkhacks/projects/clwdf3lwh0efbyg016jpi8xzn/idea"],
+      [
+        "Taikai",
+        "https://taikai.network/hackbox/hackathons/hawkhacks/projects/clwdf3lwh0efbyg016jpi8xzn/idea",
+      ],
     ],
     image: img.devBetter,
   },
@@ -207,31 +227,21 @@ const devItems = {
   jaja: {
     title: "JAJA",
     status: "coming soon",
-    comingSoonText: "A polished product and design-system case study is being shaped here, with more interface work, visuals, and implementation notes coming soon.",
+    comingSoonText:
+      "A polished product and design-system case study is being shaped here, with more interface work, visuals, and implementation notes coming soon.",
     text: "Design and product systems work focused on high-fidelity interface exploration, rapid prototyping, and clean implementation paths.",
-    details: [
-      "Figma systems",
-      "Interaction design",
-      "Frontend implementation",
-    ],
-    links: [
-      ["GitHub", "https://github.com/JosephLiao542211"],
-    ],
+    details: ["Figma systems", "Interaction design", "Frontend implementation"],
+    links: [["GitHub", "https://github.com/JosephLiao542211"]],
     image: img.comingSoon,
   },
   jajaLabs: {
     title: "JAJA Labs",
     status: "coming soon",
-    comingSoonText: "An experimental lab for visual systems, software prototypes, and interface concepts. The first public project is still being assembled.",
+    comingSoonText:
+      "An experimental lab for visual systems, software prototypes, and interface concepts. The first public project is still being assembled.",
     text: "Experimental product lab for visual systems, software prototypes, and polished interface concepts.",
-    details: [
-      "Design systems",
-      "Prototype lab",
-      "Visual direction",
-    ],
-    links: [
-      ["GitHub", "https://github.com/JosephLiao542211"],
-    ],
+    details: ["Design systems", "Prototype lab", "Visual direction"],
+    links: [["GitHub", "https://github.com/JosephLiao542211"]],
     image: img.comingSoon,
   },
 };
@@ -254,22 +264,30 @@ function renderDevProject(item) {
     <article class="dev-project">
       <figure class="dev-project-photo ${item.status ? "dev-photo--coming-soon" : ""}"><img src="${item.image}" alt=""></figure>
       <div class="dev-project-copy">
-        ${item.status ? `
+        ${
+          item.status
+            ? `
           <p class="dev-status">${item.status}</p>
           <h2 class="dev-title">${item.title}</h2>
           <p class="dev-description">${item.comingSoonText}</p>
-        ` : `
+        `
+            : `
           <h2 class="dev-title">${item.title}</h2>
           <p class="dev-description">${item.text}</p>
           <div class="dev-points">
             ${item.details.map((detail) => `<p class="dev-point">&gt; ${detail}</p>`).join("")}
           </div>
-        `}
-        ${item.links ? `
+        `
+        }
+        ${
+          item.links
+            ? `
           <div class="dev-links" aria-label="${item.title} links">
             ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
           </div>
-        ` : ""}
+        `
+            : ""
+        }
       </div>
     </article>
   `;
@@ -285,39 +303,24 @@ function landing() {
           <img src="${img.portrait}" alt="Joseph Liao at a night carousel" loading="eager" decoding="async">
         </picture>
         <div class="about-copy">
-          <p class="label">who am i</p>
-          <h2 id="about-title">builder between software, systems, and visual work.</h2>
+          <h2 id="about-title">JUST<br>APPROVE.</h2>
           <p>I am a computer science student at Queen's focused on shipping useful products quickly: AI tools, data pipelines, product interfaces, and the occasional hardware prototype. I like work that moves from messy idea to working system, especially when design and engineering have to meet in the same place.</p>
           <dl class="about-stats" aria-label="Quick profile stats">
             <div>
+              <span class="company-mark company-mark--crest" aria-hidden="true">
+                <img src="${img.queensCrest}" alt="">
+              </span>
               <dt>Education</dt>
               <dd>Queen's University, BCmpH ’27</dd>
             </div>
             <div>
+              <span class="company-mark" aria-hidden="true">
+                <img src="${img.canadaFlag}" alt="">
+              </span>
               <dt>Location</dt>
               <dd>Kingston / Toronto</dd>
             </div>
-            <div>
-              <dt>Programming Languages</dt>
-              <dd>TypeScript, Go, Python, C++</dd>
-            </div>
           </dl>
-        </div>
-      </section>
-      <section class="experience-panel" aria-labelledby="experience-title">
-        <p id="experience-title" class="label">professional experience</p>
-        <div class="experience">
-          ${jobs.map((job) => `
-            <div class="job">
-              <img class="job-mark" src="${job.icon}" alt="">
-              <div class="job-copy">
-                <p class="job-company">${job.company}</p>
-                <p class="job-position">${job.position}</p>
-                <p class="job-meta">${job.meta}</p>
-              </div>
-              <span class="job-line"></span>
-            </div>
-          `).join("")}
         </div>
       </section>
     </div>
@@ -327,46 +330,44 @@ function landing() {
 function art() {
   const content = sections.art;
   const artImages = [
-    { src: img.artRain, width: "clamp(210px, 22vw, 410px)" },
-    { src: img.artPhoto, width: "clamp(110px, 12vw, 190px)" },
-    { src: img.artSketch, width: "clamp(135px, 14vw, 235px)" },
-    { src: img.artPortrait, width: "clamp(118px, 13vw, 220px)" },
-    { src: img.artBust, width: "clamp(120px, 13vw, 215px)" },
-    { src: img.artStudy, width: "clamp(165px, 17vw, 290px)" },
-    { src: img.artFates, width: "clamp(88px, 9vw, 150px)" },
-    { src: img.artCoverPage, width: "clamp(170px, 18vw, 320px)" },
-    { src: img.artPosterLight, width: "clamp(118px, 13vw, 210px)" },
-    { src: img.artPosterDark, width: "clamp(118px, 13vw, 210px)" },
-    { src: img.artImg1211, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1214, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1219, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1221, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1223A, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1223B, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1233, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artImg1234, width: "clamp(130px, 14vw, 240px)" },
-    { src: img.artSmall, width: "clamp(92px, 10vw, 165px)" },
+    img.artRain, img.artPhoto, img.artPortraitSketch, img.artSketch, img.artPortrait, img.artBust,
+    img.artStudy, img.artFates, img.artFigureStool, img.artHandsPortrait, img.artCoverPage, img.artPosterLight, img.artPosterDark,
+    img.artImg1211, img.artImg1214, img.artImg1219, img.artFigurePair, img.artImg1221, img.artImg1223A,
+    img.artImg1223B, img.artImg1233, img.artThanos, img.artImg1234, img.artSmall,
   ];
-  const galleryItems = artImages
-    .map(({ src, width }, index) => `
-      <button class="art-card" type="button" style="--art-width: ${width}" data-art-image="${src}" aria-label="Open artwork ${index + 1}">
-        <img src="${src}" alt="Artwork ${index + 1} by Joseph Liao" loading="lazy" decoding="async">
-      </button>
-    `)
-    .join("");
+  // Concentric orbits around the word: radius is a fraction of the available half-width/height,
+  // speed is revolutions per second (sign sets direction), size scales the cards.
+  const rings = [
+    { count: 6, radius: 0.52, speed: 1 / 70, size: 0.85 },
+    { count: 8, radius: 0.76, speed: -1 / 95, size: 1 },
+    { count: 10, radius: 0.97, speed: 1 / 120, size: 1.15 },
+  ];
+
+  let next = 0;
+  const cards = rings.flatMap((ring, r) =>
+    Array.from({ length: ring.count }, (_, i) => ({
+      ring: r,
+      phase: i / ring.count + r * 0.13,
+      src: artImages[next++],
+    })),
+  );
 
   content.innerHTML = `
-    <div class="art-gallery" aria-label="Rotating art gallery">
-      <div class="art-track">
-        <div class="art-set">${galleryItems}</div>
-        <div class="art-set" aria-hidden="true" inert>${galleryItems}</div>
-      </div>
+    <div class="art-orbit" aria-label="Art gallery">
+      <h2 class="art-word">MY ART</h2>
+      ${cards.map(({ ring, src }, index) => `
+        <button class="art-card" type="button" style="--art-size: ${rings[ring].size}" data-art-image="${src}" aria-label="Open artwork ${index + 1}">
+          <img src="${src}" alt="Artwork ${index + 1} by Joseph Liao" loading="lazy" decoding="async">
+        </button>
+      `).join("")}
     </div>
     <div class="art-lightbox" hidden>
       <button class="art-lightbox-close" type="button" aria-label="Close artwork preview">x</button>
       <img alt="Selected artwork by Joseph Liao">
     </div>
   `;
+
+  orbitArt(rings, cards);
 
   const lightbox = content.querySelector(".art-lightbox");
   const lightboxImage = lightbox.querySelector("img");
@@ -375,7 +376,7 @@ function art() {
     lightboxImage.removeAttribute("src");
   };
 
-  content.querySelector(".art-gallery").addEventListener("click", (event) => {
+  content.querySelector(".art-orbit").addEventListener("click", (event) => {
     const card = event.target.closest("[data-art-image]");
     if (!card) return;
     lightboxImage.src = card.dataset.artImage;
@@ -384,7 +385,10 @@ function art() {
   });
 
   lightbox.addEventListener("click", (event) => {
-    if (event.target === lightbox || event.target.closest(".art-lightbox-close")) {
+    if (
+      event.target === lightbox ||
+      event.target.closest(".art-lightbox-close")
+    ) {
       closeLightbox();
     }
   });
@@ -398,10 +402,84 @@ function art() {
   window.addEventListener("keydown", onEscape);
 }
 
+function orbitArt(rings, cards) {
+  const orbit = sections.art.querySelector(".art-orbit");
+  const elements = [...orbit.querySelectorAll(".art-card")];
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Per-card hold: a hovered card eases out of its ring and parks where it was (h -> 1),
+  // then glides back into its moving slot when released (h -> 0). The rest keep orbiting.
+  const holds = elements.map(() => ({ h: 0, target: 0, x: 0, y: 0, renderX: 0, renderY: 0 }));
+  let elapsed = 0;
+  let last = 0;
+  let visible = false;
+
+  const place = (dt = 0) => {
+    // Keep the outer ring's cards inside the section: inset by the largest card's half-size.
+    const inset = Math.max(...elements.map((el) => Math.max(el.offsetWidth, el.offsetHeight))) / 2;
+    const rx = orbit.clientWidth / 2 - inset;
+    const ry = orbit.clientHeight / 2 - inset;
+    const ease = 1 - Math.exp(-dt * 9);
+    elements.forEach((el, i) => {
+      const { ring, phase } = cards[i];
+      const hold = holds[i];
+      const angle = (phase + elapsed * rings[ring].speed) * Math.PI * 2;
+      const orbitX = Math.cos(angle) * rx * rings[ring].radius;
+      const orbitY = Math.sin(angle) * ry * rings[ring].radius;
+      hold.h += (hold.target - hold.h) * ease;
+      if (Math.abs(hold.target - hold.h) < 0.001) hold.h = hold.target;
+      hold.renderX = orbitX + (hold.x - orbitX) * hold.h;
+      hold.renderY = orbitY + (hold.y - orbitY) * hold.h;
+      el.classList.toggle("is-held", hold.target === 1);
+      el.style.transform = `translate(-50%, -50%) translate(${hold.renderX}px, ${hold.renderY}px)`;
+    });
+  };
+
+  const tick = (now) => {
+    if (!visible) return;
+    const dt = Math.min(now - last, 100) / 1000;
+    elapsed += dt;
+    last = now;
+    place(dt);
+    requestAnimationFrame(tick);
+  };
+
+  const grab = (i) => {
+    const hold = holds[i];
+    hold.x = hold.renderX;
+    hold.y = hold.renderY;
+    hold.target = 1;
+  };
+  const release = (i) => { holds[i].target = 0; };
+
+  if (!still) {
+    elements.forEach((el, i) => {
+      el.addEventListener("pointerenter", () => grab(i));
+      el.addEventListener("pointerleave", () => release(i));
+      el.addEventListener("focus", () => grab(i));
+      el.addEventListener("blur", () => release(i));
+    });
+  }
+  window.addEventListener("resize", () => place());
+  elements.forEach((el) => el.querySelector("img").addEventListener("load", () => place(), { once: true }));
+  place();
+
+  if (still) return;
+  new IntersectionObserver(([entry]) => {
+    const wasVisible = visible;
+    visible = entry.isIntersecting;
+    if (visible && !wasVisible) {
+      last = performance.now();
+      requestAnimationFrame(tick);
+    }
+  }).observe(orbit);
+}
+
 function dev(active = "local") {
   const content = sections.dev;
   const item = devItems[active] || devItems.local;
-  const mobileProjects = devOrder.map((key) => renderDevProject(devItems[key])).join("");
+  const mobileProjects = devOrder
+    .map((key) => renderDevProject(devItems[key]))
+    .join("");
   content.innerHTML = `
     <div class="dev-layout">
       <div class="dev-menu">
@@ -417,7 +495,9 @@ function dev(active = "local") {
         <button class="${active === "jajaLabs" ? "active" : ""}" type="button" data-dev="jajaLabs">&gt;JAJA Labs <span>coming soon</span></button>
       </div>
       <div class="dev-copy">
-        ${item.status ? `
+        ${
+          item.status
+            ? `
           <div class="coming-soon-copy">
             <p class="dev-status">${item.status}</p>
             <h2 class="dev-title">${item.title}</h2>
@@ -426,19 +506,30 @@ function dev(active = "local") {
               ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
             </div>
           </div>
-        ` : `
+        `
+            : `
           <h2 class="dev-title">${item.title}</h2>
           <p>${item.text}</p>
           <p>${item.details.map((detail) => `&gt; ${detail}`).join("<br>")}</p>
-          ${item.links ? `
+          ${
+            item.links
+              ? `
             <div class="dev-links" aria-label="Related links">
               ${item.links.map(([label, href]) => `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
             </div>
-          ` : ""}
+          `
+              : ""
+          }
           <p>learn more</p>
-        `}
+        `
+        }
       </div>
-      <figure class="dev-photo ${item.status ? "dev-photo--coming-soon" : ""}"><img src="${item.image}" alt=""></figure>
+      <figure class="dev-photo dev-monitor">
+        <div class="dev-monitor-frame">
+          <img class="dev-monitor-body" src="${img.devMonitor}" alt="">
+          <div class="dev-monitor-screen ${item.status ? "dev-photo--coming-soon" : ""}"><img src="${item.image}" alt=""></div>
+        </div>
+      </figure>
       <div class="dev-mobile-list">
         ${mobileProjects}
       </div>
@@ -448,11 +539,95 @@ function dev(active = "local") {
   content.querySelectorAll("[data-dev]").forEach((button) => {
     button.addEventListener("click", () => dev(button.dataset.dev));
   });
+  fitMonitorScreen();
 }
+
+// Screen corners as fractions of the monitor image's width/height: TL, TR, BR, BL.
+// The image is mirrored in CSS to face left, so these are the source corners flipped (x -> 1 - x).
+const monitorScreen = [
+  [0.2673, 0.10568],
+  [0.81196, 0.0869],
+  [0.79711, 0.64011],
+  [0.26086, 0.59068],
+];
+
+// CRT glass bulge: an SVG displacement filter that magnifies the centre and leaves the corners pinned.
+function installBulgeFilter(strength = 0.09, scale = 0.2) {
+  const size = 256;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  const map = ctx.createImageData(size, size);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const u = (x / (size - 1)) * 2 - 1;
+      const v = (y / (size - 1)) * 2 - 1;
+      const pull = strength * (1 - (u * u + v * v) / 2);
+      // Offsets are in fractions of the element's box; R/G encode them around 0.5.
+      const i = (y * size + x) * 4;
+      map.data[i] = 128 + ((-u * pull) / 2 / scale) * 255;
+      map.data[i + 1] = 128 + ((-v * pull) / 2 / scale) * 255;
+      map.data[i + 2] = 128;
+      map.data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(map, 0, 0);
+
+  document.body.insertAdjacentHTML("beforeend", `
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <filter id="crt-bulge" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+        <feImage href="${canvas.toDataURL()}" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map"/>
+        <feDisplacementMap in="SourceGraphic" in2="map" scale="${scale}" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </svg>
+  `);
+}
+
+installBulgeFilter();
+
+// Warp the project image onto the monitor's screen with a projective (perspective) transform.
+function fitMonitorScreen() {
+  const frame = document.querySelector(".dev-monitor-frame");
+  const screen = frame?.querySelector(".dev-monitor-screen");
+  if (!screen || !frame.offsetWidth) return;
+
+  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = monitorScreen.map(([fx, fy]) => [
+    fx * frame.offsetWidth,
+    fy * frame.offsetHeight,
+  ]);
+
+  // Size the layer to the screen's average edge lengths so the image crops at the right aspect.
+  const w = (Math.hypot(x1 - x0, y1 - y0) + Math.hypot(x2 - x3, y2 - y3)) / 2;
+  const h = (Math.hypot(x3 - x0, y3 - y0) + Math.hypot(x2 - x1, y2 - y1)) / 2;
+  screen.style.width = `${w}px`;
+  screen.style.height = `${h}px`;
+
+  // Unit square -> quad (Heckbert), then scaled from the layer's w x h box.
+  const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3;
+  const dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3;
+  const den = dx1 * dy2 - dx2 * dy1;
+  const g = (dx3 * dy2 - dx2 * dy3) / den;
+  const k = (dx1 * dy3 - dx3 * dy1) / den;
+  const a = x1 - x0 + g * x1, b = x3 - x0 + k * x3;
+  const d = y1 - y0 + g * y1, e = y3 - y0 + k * y3;
+
+  screen.style.transform = `matrix3d(${[
+    a / w, d / w, 0, g / w,
+    b / h, e / h, 0, k / h,
+    0, 0, 1, 0,
+    x0, y0, 0, 1,
+  ].join(",")})`;
+}
+
+window.addEventListener("resize", fitMonitorScreen);
 
 const lifeTiles = [
   { type: "image", src: img.lifeTeam, className: "life-tile--team" },
-  { type: "image", src: img.lifeStreet, className: "life-tile--street life-photo--tall" },
+  {
+    type: "image",
+    src: img.lifeStreet,
+    className: "life-tile--street life-photo--tall",
+  },
   { type: "image", src: img.lifeStudio, className: "life-tile--studio" },
   {
     type: "text",
@@ -461,7 +636,11 @@ const lifeTiles = [
     text: "wrestling rooms, late buses, and the useful kind of tired.",
   },
   { type: "image", src: img.lifeMic, className: "life-tile--mic" },
-  { type: "image", src: img.lifeBjj, className: "life-tile--bjj life-photo--tall" },
+  {
+    type: "image",
+    src: img.lifeBjj,
+    className: "life-tile--bjj life-photo--tall",
+  },
   {
     type: "text",
     className: "life-tile--note-b",
@@ -489,22 +668,24 @@ function life() {
   const content = sections.life;
   content.innerHTML = `
     <div class="life-layout" aria-label="Life photo mosaic">
-      ${lifeTiles.map((tile) => {
-        if (tile.type === "text") {
-          return `
+      ${lifeTiles
+        .map((tile) => {
+          if (tile.type === "text") {
+            return `
             <article class="life-note ${tile.className}">
               <span>${tile.kicker}</span>
               <p>${tile.text}</p>
             </article>
           `;
-        }
+          }
 
-        return `
+          return `
           <button class="life-photo ${tile.className}" type="button" data-life-image="${tile.src}" aria-label="Open life photo">
             <img src="${tile.src}" alt="Life photo by Joseph Liao" loading="lazy" decoding="async">
           </button>
         `;
-      }).join("")}
+        })
+        .join("")}
     </div>
     <div class="life-lightbox" hidden>
       <button class="life-lightbox-close" type="button" aria-label="Close photo preview">x</button>
@@ -528,7 +709,10 @@ function life() {
   });
 
   lightbox.addEventListener("click", (event) => {
-    if (event.target === lightbox || event.target.closest(".life-lightbox-close")) {
+    if (
+      event.target === lightbox ||
+      event.target.closest(".life-lightbox-close")
+    ) {
       closeLightbox();
     }
   });
@@ -555,12 +739,17 @@ const upcoming = [{ icon: img.workWealthsimple, company: "Wealthsimple" }];
 
 function renderCompanyMarks() {
   const recentFirst = [...jobs].sort((a, b) => b.start.localeCompare(a.start));
-  document.querySelector(".company-marks").innerHTML = [...upcoming, ...recentFirst]
-    .map((job) => `
+  document.querySelector(".company-marks").innerHTML = [
+    ...upcoming,
+    ...recentFirst,
+  ]
+    .map(
+      (job) => `
       <span class="company-mark" title="${job.company}">
         <img src="${job.icon}" alt="${job.company}">
       </span>
-    `)
+    `,
+    )
     .join("");
 }
 
@@ -582,7 +771,40 @@ art();
 dev();
 life();
 
-window.addEventListener("hashchange", () => scrollToSection(location.hash.slice(1)));
+// Scale the about headline so the copy column reaches the top of the portrait, without overflowing its width.
+function fitAboutTitle() {
+  const title = document.querySelector("#about-title");
+  title.style.fontSize = "";
+  if (window.matchMedia("(max-width: 760px)").matches) {
+    matchArtWord(title);
+    return;
+  }
+
+  const portrait = document.querySelector(".about-portrait");
+  const copy = document.querySelector(".about-copy");
+  const base = parseFloat(getComputedStyle(title).fontSize);
+  const spare =
+    portrait.offsetHeight - (copy.offsetHeight - title.offsetHeight);
+  const byHeight = (base * spare) / title.offsetHeight;
+  title.style.width = "max-content";
+  const byWidth = (base * copy.clientWidth) / title.offsetWidth;
+  title.style.width = "";
+  title.style.fontSize = `${Math.min(byHeight, byWidth)}px`;
+  matchArtWord(title);
+}
+
+// "MY ART" uses the same type size as the about headline.
+function matchArtWord(title) {
+  document.querySelector(".art-word").style.fontSize = getComputedStyle(title).fontSize;
+}
+
+fitAboutTitle();
+document.fonts.ready.then(fitAboutTitle);
+window.addEventListener("resize", fitAboutTitle);
+
+window.addEventListener("hashchange", () =>
+  scrollToSection(location.hash.slice(1)),
+);
 if (location.hash) {
   // Late-loading images shift section offsets, so re-align once they finish.
   const jump = () => scrollToSection(location.hash.slice(1), "auto");
