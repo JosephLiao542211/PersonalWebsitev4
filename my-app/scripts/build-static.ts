@@ -12,6 +12,7 @@ const result = await Bun.build({
   entrypoints: ["index.html", "portfolio.html", "blog.html"],
   outdir: "dist",
   minify: true,
+  define: { "process.env.NODE_ENV": JSON.stringify("production") },
 });
 
 if (!result.success) {
